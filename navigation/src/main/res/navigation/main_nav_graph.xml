@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/base_nav">
+
+    <include app:graph="@navigation/base_nav" />
+    <include app:graph="@navigation/home_nav" />
+    <include app:graph="@navigation/detail_nav" />
+    <include app:graph="@navigation/countdown_nav" />
+
+    <action
+        android:id="@+id/action_global_home_nav"
+        app:destination="@id/home_nav"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/main_nav_graph" />
+
+    <action
+        android:id="@+id/action_global_detail_nav"
+        app:destination="@id/detail_nav"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/main_nav_graph" />
+
+    <action
+        android:id="@+id/action_global_countdown_nav"
+        app:destination="@id/countdown_nav"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/main_nav_graph" />
+</navigation>

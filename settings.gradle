@@ -1,0 +1,11 @@
+rootProject.name = "MissionToSpace"
+include ':app'
+include ':data:cache'
+include ':data:network'
+include ':data:repository'
+include ':feature:home'
+include ':feature:detail'
+include ':domain'
+include ':navigation'
+
+include ':feature:countdown'

@@ -1,0 +1,12 @@
+apply from: "$rootDir/common-android-library.gradle"
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
+dependencies {
+    // Core
+    implementation navDependencies.coreLib
+
+    // Navigation
+    api navDependencies.navFragmentLib
+    api navDependencies.navUiLib
+}

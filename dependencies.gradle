@@ -1,0 +1,77 @@
+ext {
+    compileSdkVersion = 31
+    minSdkVersion = 21
+    targetSdkVersion = 31
+    versionCode = 1
+    versionName = "1.0"
+
+    // Default
+    coreVersion = '1.6.0'
+    compatVersion = '1.3.1'
+    materialVersion = '1.4.0'
+    constraintVersion = '2.1.1'
+
+    // Coroutines
+    coroutineVersion = '1.5.2-native-mt'
+
+    // Navigation
+    navVersion = "2.3.4"
+
+    // Kotlin-Result
+    kotlinResultVersion = "1.1.12"
+
+    // Testing
+    junitVersion = '4.13.2'
+    extjunitVersion = '1.1.3'
+    espressoVersion = '3.4.0'
+    truthVersion = '1.1.3'
+
+    commonDependencies = [
+            coreLib      : "androidx.core:core-ktx:$coreVersion",
+            compatLib    : "androidx.appcompat:appcompat:$compatVersion",
+
+            // Kotlin-Result
+            kotlinResultLib: "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion",
+            kotlinResultCoroutinesLib: "com.michael-bull.kotlin-result:kotlin-result-coroutines:$kotlinResultVersion"
+    ]
+
+    commonTestDependencies = [
+            junitLib   : "junit:junit:$junitVersion",
+            extJunitLib: "androidx.test.ext:junit:$extjunitVersion",
+            espressoLib: "androidx.test.espresso:espresso-core:$espressoVersion",
+            truthLib: "com.google.truth:truth:$truthVersion"
+    ]
+
+    appDependencies = [
+            // Default
+            coreLib      : "androidx.core:core-ktx:$coreVersion",
+            compatLib    : "androidx.appcompat:appcompat:$compatVersion",
+
+            // View
+            materialLib  : "com.google.android.material:material:$materialVersion",
+            constraintLib: "androidx.constraintlayout:constraintlayout:$constraintVersion"
+    ]
+
+    domainDependencies = [
+            // Kotlin
+            coroutinesLib: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
+    ]
+
+    navDependencies = [
+            // Core
+            coreLib       : "androidx.core:core-ktx:$coreVersion",
+
+            // Navigation
+            navFragmentLib: "androidx.navigation:navigation-fragment-ktx:$navVersion",
+            navUiLib      : "androidx.navigation:navigation-ui-ktx:$navVersion",
+    ]
+
+    navTestDependencies = [
+            navTestLib: "androidx.navigation:navigation-testing:$navVersion"
+    ]
+
+    featureLibDependencies = [
+            // View
+            constraintLib: "androidx.constraintlayout:constraintlayout:$constraintVersion"
+    ]
+}
