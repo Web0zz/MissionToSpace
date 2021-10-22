@@ -20,11 +20,11 @@ object NetworkModule {
     fun provideRetrofit(): Retrofit =
         Retrofit.Builder()
             .baseUrl(BASE_URL)
+            .client(provideOkhttp())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
 
-    @Provides
-    fun provideOkhttp(): OkHttpClient =
+    private fun provideOkhttp(): OkHttpClient =
         OkHttpClient.Builder()
             .callTimeout(10, TimeUnit.SECONDS)
             .build()

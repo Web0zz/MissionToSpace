@@ -13,6 +13,6 @@ dependencies {
     implementation domainDependencies.coroutinesLib
 
     // Kotlin-Result
-    implementation commonDependencies.kotlinResultLib
-    implementation commonDependencies.kotlinResultCoroutinesLib
+    api commonDependencies.kotlinResultLib
+    api commonDependencies.kotlinResultCoroutinesLib
 }
