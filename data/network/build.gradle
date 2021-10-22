@@ -1,5 +1,14 @@
 apply from: "$rootDir/common-android-library.gradle"
 
-dependencies {
+apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
+dependencies {
+    // Hilt
+    implementation commonDependencies.hiltAndroidLib
+    kapt commonDependencies.hiltCompilerLib
+
+    // Retrofit
+    implementation dataNetworkDependencies.refrofitLib
+    implementation dataNetworkDependencies.retrofitGsonLib
 }
