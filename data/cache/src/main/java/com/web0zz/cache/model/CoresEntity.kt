@@ -1,7 +1,6 @@
 package com.web0zz.cache.model
 
 data class CoresEntity(
-    val coreId: Int = 0,
     val core : String,
     val flight : Int,
     val gridfins : Boolean,

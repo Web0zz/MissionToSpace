@@ -11,7 +11,6 @@ import androidx.viewbinding.ViewBinding
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 abstract class BaseFragment<B : ViewBinding, V : BaseViewModel>(
     private val inflateLayout: (LayoutInflater, ViewGroup?, Boolean) -> B
 ) : Fragment() {

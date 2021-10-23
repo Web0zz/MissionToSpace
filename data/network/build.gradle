@@ -4,8 +4,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 dependencies {
-    implementation project(":domain")
-
     // Hilt
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib
