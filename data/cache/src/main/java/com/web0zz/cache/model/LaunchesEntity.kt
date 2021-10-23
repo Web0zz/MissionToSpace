@@ -2,8 +2,9 @@ package com.web0zz.cache.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.web0zz.cache.util.Constants.LAUNCHES_TABLE
 
-@Entity(tableName = "Launches Table")
+@Entity(tableName = LAUNCHES_TABLE)
 data class LaunchesEntity(
     @PrimaryKey(autoGenerate = false)
     val id : String,

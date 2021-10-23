@@ -3,7 +3,7 @@ ext {
     minSdkVersion = 21
     targetSdkVersion = 31
     versionCode = 1
-    versionName = "1.0"
+    versionName = '1.0'
 
     // Default
     coreVersion = '1.6.0'
@@ -24,10 +24,13 @@ ext {
     roomVersion = '2.3.0'
 
     // Navigation
-    navVersion = "2.3.4"
+    navVersion = '2.3.4'
 
     // Kotlin-Result
-    kotlinResultVersion = "1.1.12"
+    kotlinResultVersion = '1.1.12'
+
+    // Gson
+    gsonVersion = '2.8.8'
 
     // Testing
     junitVersion = '4.13.2'
@@ -71,6 +74,12 @@ ext {
     ]
 
     dataCacheDependencies = [
+            // Gson
+            gsonLib: "com.google.code.gson:gson:$gsonVersion",
+
+            // Kotlin
+            coroutinesLib: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
+
             // Room
             roomLib: "androidx.room:room-runtime:$roomVersion",
             roomCompilerLib: "androidx.room:room-compiler:$roomVersion"
