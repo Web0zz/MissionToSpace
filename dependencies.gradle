@@ -20,6 +20,9 @@ ext {
     // Retrofit
     retrofitVersion = '2.9.0'
 
+    // Room
+    roomVersion = '2.3.0'
+
     // Navigation
     navVersion = "2.3.4"
 
@@ -65,6 +68,12 @@ ext {
     domainDependencies = [
             // Kotlin
             coroutinesLib: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
+    ]
+
+    dataCacheDependencies = [
+            // Room
+            roomLib: "androidx.room:room-runtime:$roomVersion",
+            roomCompilerLib: "androidx.room:room-compiler:$roomVersion"
     ]
 
     dataNetworkDependencies = [

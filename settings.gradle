@@ -9,3 +9,4 @@ include ':domain'
 include ':navigation'
 
 include ':feature:countdown'
+include ':feature:core'

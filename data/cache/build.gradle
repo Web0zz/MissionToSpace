@@ -1,5 +1,7 @@
 apply from: "$rootDir/common-android-library.gradle"
 
 dependencies {
-
+    // Room
+    implementation dataCacheDependencies.roomLib
+    annotationProcessor dataCacheDependencies.roomCompilerLib
 }

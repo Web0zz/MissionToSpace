@@ -1,16 +1,21 @@
-package com.web0zz.domain.model
+package com.web0zz.cache.model
 
-data class Launches(
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "Launches Table")
+data class LaunchesEntity(
+    @PrimaryKey(autoGenerate = false)
     val id : String,
-    val fairings : Fairings,
-    val links : Links,
+    val fairings : FairingsEntity,
+    val links : LinksEntity,
     val staticFireDateUtc : String,
     val staticFireDateUnix : Int,
     val net : Boolean,
     val window : Int,
     val rocket : String,
     val success : Boolean,
-    val failures : List<Failures>,
+    val failures : List<FailuresEntity>,
     val details : String,
     val crew : List<String>,
     val ships : List<String>,
@@ -24,7 +29,7 @@ data class Launches(
     val dateLocal : String,
     val datePrecision : String,
     val upcoming : Boolean,
-    val cores : List<Cores>,
+    val cores : List<CoresEntity>,
     val autoUpdate : Boolean,
     val tbd : Boolean,
     val launchLibraryId : String
