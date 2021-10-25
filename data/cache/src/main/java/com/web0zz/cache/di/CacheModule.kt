@@ -3,6 +3,7 @@ package com.web0zz.cache.di
 import android.content.Context
 import androidx.room.Room
 import com.web0zz.cache.AppDatabase
+import com.web0zz.cache.dao.LaunchesDao
 import com.web0zz.cache.util.Constants.DB_NAME
 import dagger.Module
 import dagger.Provides
@@ -17,10 +18,10 @@ object CacheModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context) =
-        Room.databaseBuilder(
-            appContext,
-            AppDatabase::class.java,
-            DB_NAME
-        ).fallbackToDestructiveMigration().build()
+    fun provideDatabase(@ApplicationContext appContext: Context) : AppDatabase =
+        AppDatabase.getInstance(appContext)
+
+    @Provides
+    @Singleton
+    fun provideLaunchesDao(database: AppDatabase) : LaunchesDao = database.launchesDao()
 }

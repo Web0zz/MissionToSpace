@@ -6,5 +6,6 @@ import com.web0zz.network.model.LaunchesDto
 
 class DataMappersFacade(
     val launchesDtoMapper: (LaunchesDto) -> Launches,
-    val LaunchesEntityMapper: (LaunchesEntity) -> Launches,
+    val launchesEntityMapper: (LaunchesEntity) -> Launches,
+    val launchesDtoToEntityMapper: (LaunchesDto) -> LaunchesEntity
 )

@@ -10,4 +10,5 @@ class SpaceXService
     private val spaceXApi by lazy { retrofit.create(SpaceXApi::class.java) }
 
     override suspend fun getLaunches() = spaceXApi.getLaunches()
+    override suspend fun getLaunchesById(launchesId: String) = spaceXApi.getLaunchesById(launchesId)
 }

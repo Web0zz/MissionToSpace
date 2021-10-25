@@ -10,7 +10,7 @@ java {
 
 dependencies {
     // Kotlin
-    implementation domainDependencies.coroutinesLib
+    api domainDependencies.coroutinesLib
 
     // Kotlin-Result
     api commonDependencies.kotlinResultLib

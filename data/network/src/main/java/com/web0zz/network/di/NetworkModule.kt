@@ -1,5 +1,6 @@
 package com.web0zz.network.di
 
+import com.web0zz.network.SpaceXService
 import com.web0zz.network.util.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -23,6 +24,10 @@ object NetworkModule {
             .client(provideOkhttp())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+
+    @Provides
+    fun provideSpaceXService(retrofit: Retrofit): SpaceXService =
+        SpaceXService(retrofit)
 
     private fun provideOkhttp(): OkHttpClient =
         OkHttpClient.Builder()
