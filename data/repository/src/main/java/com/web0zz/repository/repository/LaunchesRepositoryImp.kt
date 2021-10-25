@@ -1,5 +1,6 @@
 package com.web0zz.repository.repository
 
+import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.web0zz.cache.dao.LaunchesDao
@@ -26,54 +27,19 @@ class LaunchesRepositoryImp @Inject constructor(
     private val dataMappersFacade: DataMappersFacade,
     private val networkHandler: NetworkHandler
 ) : LaunchesRepository {
-    // TODO Set Failure class, don't throw exception
 
     /**
      *  [getResponse] can throw in case unexpected response, that will cause to skip load from cache
-     *  TODO will resolve that error
+     *  TODO fix that
      */
     override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> = flow {
-        lateinit var result : Result<List<Launches>, Failure>
+        try {
+            lateinit var result : Result<List<Launches>, Failure>
 
-        if(networkHandler.checkNetworkStat()) {
-            val apiResponse : List<LaunchesDto> = apiService.getLaunches().getResponse()
+            if(networkHandler.checkNetworkStat()) {
+                val apiResponse : List<LaunchesDto> = apiService.getLaunches().getResponse()
 
-            result = if (apiResponse.isNotEmpty()) {
-                val data = apiResponse.map { dataMappersFacade.launchesDtoMapper(it) }
-
-                launchesDao.insertLaunches(
-                    apiResponse.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
-                )
-                Ok(data)
-            } else {
-                val data = launchesDao.getAllLaunches()
-                    .map { dataMappersFacade.launchesEntityMapper(it) }
-
-                Ok(data)
-            }
-        } else {
-            val data = launchesDao.getAllLaunches()
-                .map { dataMappersFacade.launchesEntityMapper(it) }
-
-            result = Ok(data)
-        }
-
-        emit(result)
-    }.catch { emit(Ok(listOf())) }
-    // TODO emit error result with Failure class later on
-
-    override suspend fun getLaunchesById(launchesId: String): Flow<Result<List<Launches>, Failure>> = flow {
-        val cacheResponse : List<LaunchesEntity> = launchesDao.getLaunches(launchesId)
-
-        val result : Result<List<Launches>, Failure> = if (cacheResponse.isNotEmpty()) {
-            val data = cacheResponse.map { dataMappersFacade.launchesEntityMapper(it) }
-
-            Ok(data)
-        } else {
-            if (networkHandler.checkNetworkStat()) {
-                val apiResponse = apiService.getLaunchesById(launchesId).getResponse()
-
-                if (apiResponse.isNotEmpty()) {
+                result = if (apiResponse.isNotEmpty()) {
                     val data = apiResponse.map { dataMappersFacade.launchesDtoMapper(it) }
 
                     launchesDao.insertLaunches(
@@ -81,12 +47,52 @@ class LaunchesRepositoryImp @Inject constructor(
                     )
                     Ok(data)
                 } else {
-                    throw IOException("Error")
-                }
-            } else throw IOException("Error")
-        }
+                    val data = launchesDao.getAllLaunches()
+                        .map { dataMappersFacade.launchesEntityMapper(it) }
 
-        emit(result)
-    }.catch { emit(Ok(listOf())) }
-    // TODO emit error result with Failure class later on
+                    Ok(data)
+                }
+            } else {
+                val data = launchesDao.getAllLaunches()
+                    .map { dataMappersFacade.launchesEntityMapper(it) }
+
+                result = Ok(data)
+            }
+
+            emit(result)
+        } catch (e: Exception) {
+            emit(Err(Failure.UnknownError("Error")))
+        }
+    }
+
+    override suspend fun getLaunchesById(launchesId: String): Flow<Result<List<Launches>, Failure>> = flow {
+        try {
+            val cacheResponse : List<LaunchesEntity> = launchesDao.getLaunches(launchesId)
+
+            val result : Result<List<Launches>, Failure> = if (cacheResponse.isNotEmpty()) {
+                val data = cacheResponse.map { dataMappersFacade.launchesEntityMapper(it) }
+
+                Ok(data)
+            } else {
+                if (networkHandler.checkNetworkStat()) {
+                    val apiResponse = apiService.getLaunchesById(launchesId).getResponse()
+
+                    if (apiResponse.isNotEmpty()) {
+                        val data = apiResponse.map { dataMappersFacade.launchesDtoMapper(it) }
+
+                        launchesDao.insertLaunches(
+                            apiResponse.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
+                        )
+                        Ok(data)
+                    } else {
+                        throw IOException("Error")
+                    }
+                } else throw IOException("Error")
+            }
+
+            emit(result)
+        } catch (e: Exception) {
+            emit(Err(Failure.UnknownError("Error")))
+        }
+    }
 }
