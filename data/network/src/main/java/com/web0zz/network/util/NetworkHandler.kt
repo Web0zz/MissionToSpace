@@ -9,7 +9,7 @@ import javax.inject.Inject
 class NetworkHandler @Inject constructor(
     private val appContext: Context
 ) {
-    fun checkNetworkStat() : Boolean {
+    fun checkNetworkStat(): Boolean {
         val connectivityManager = appContext
             .getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 

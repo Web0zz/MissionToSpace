@@ -1,7 +1,7 @@
 package com.web0zz.missiontospace
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.findNavController
 import com.web0zz.navigation.Navigator
 import com.web0zz.navigation.extensions.ToFlowNavigatable

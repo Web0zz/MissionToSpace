@@ -6,7 +6,7 @@ import com.google.gson.reflect.TypeToken
 
 abstract class BaseConverter<T> {
 
-    private val gson : Gson by lazy { Gson() }
+    private val gson: Gson by lazy { Gson() }
 
     @TypeConverter
     fun from(fromData: List<T>): String? {

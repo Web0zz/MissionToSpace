@@ -1,10 +1,8 @@
 package com.web0zz.cache.di
 
 import android.content.Context
-import androidx.room.Room
 import com.web0zz.cache.AppDatabase
 import com.web0zz.cache.dao.LaunchesDao
-import com.web0zz.cache.util.Constants.DB_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,10 +16,10 @@ object CacheModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(@ApplicationContext appContext: Context) : AppDatabase =
+    fun provideDatabase(@ApplicationContext appContext: Context): AppDatabase =
         AppDatabase.getInstance(appContext)
 
     @Provides
     @Singleton
-    fun provideLaunchesDao(database: AppDatabase) : LaunchesDao = database.launchesDao()
+    fun provideLaunchesDao(database: AppDatabase): LaunchesDao = database.launchesDao()
 }

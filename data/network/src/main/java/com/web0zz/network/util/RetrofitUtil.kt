@@ -16,7 +16,8 @@ inline fun <reified T> Response<T>.getResponse(): T {
         errorResponse.let {
             try {
                 message.append(JSONObject(it!!).getString("status_message"))
-            } catch (e: JSONException) {}
+            } catch (e: JSONException) {
+            }
         }
         throw ApiException(message.toString())
     }

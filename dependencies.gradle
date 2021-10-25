@@ -39,23 +39,23 @@ ext {
     truthVersion = '1.1.3'
 
     commonDependencies = [
-            coreLib      : "androidx.core:core-ktx:$coreVersion",
-            compatLib    : "androidx.appcompat:appcompat:$compatVersion",
+            coreLib                  : "androidx.core:core-ktx:$coreVersion",
+            compatLib                : "androidx.appcompat:appcompat:$compatVersion",
 
             // Kotlin-Result
-            kotlinResultLib: "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion",
+            kotlinResultLib          : "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion",
             kotlinResultCoroutinesLib: "com.michael-bull.kotlin-result:kotlin-result-coroutines:$kotlinResultVersion",
 
             // Hilt - DI
-            hiltAndroidLib: "com.google.dagger:hilt-android:$hiltVersion",
-            hiltCompilerLib: "com.google.dagger:hilt-compiler:$hiltVersion"
+            hiltAndroidLib           : "com.google.dagger:hilt-android:$hiltVersion",
+            hiltCompilerLib          : "com.google.dagger:hilt-compiler:$hiltVersion"
     ]
 
     commonTestDependencies = [
             junitLib   : "junit:junit:$junitVersion",
             extJunitLib: "androidx.test.ext:junit:$extjunitVersion",
             espressoLib: "androidx.test.espresso:espresso-core:$espressoVersion",
-            truthLib: "com.google.truth:truth:$truthVersion"
+            truthLib   : "com.google.truth:truth:$truthVersion"
     ]
 
     appDependencies = [
@@ -75,19 +75,19 @@ ext {
 
     dataCacheDependencies = [
             // Gson
-            gsonLib: "com.google.code.gson:gson:$gsonVersion",
+            gsonLib        : "com.google.code.gson:gson:$gsonVersion",
 
             // Kotlin
-            coroutinesLib: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
+            coroutinesLib  : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
 
             // Room
-            roomLib: "androidx.room:room-runtime:$roomVersion",
+            roomLib        : "androidx.room:room-runtime:$roomVersion",
             roomCompilerLib: "androidx.room:room-compiler:$roomVersion"
     ]
 
     dataNetworkDependencies = [
             // Retrofit
-            refrofitLib: "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            refrofitLib    : "com.squareup.retrofit2:retrofit:$retrofitVersion",
             retrofitGsonLib: "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     ]
 

@@ -6,6 +6,7 @@ import com.web0zz.domain.model.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.model.LaunchesDto
+import com.web0zz.network.util.NetworkHandler
 import com.web0zz.repository.mapper.DataMappersFacade
 import com.web0zz.repository.mapper.mapLaunchesDto
 import com.web0zz.repository.mapper.mapLaunchesDtoToEntity
@@ -21,20 +22,19 @@ import javax.inject.Singleton
 @InstallIn(ActivityComponent::class)
 object RepositoryModule {
 
-    // TODO networkHandler to class
     @Provides
     @Singleton
     fun provideLaunchesRepository(
         spaceXService: SpaceXService,
         launchesDao: LaunchesDao,
         dataMappersFacade: DataMappersFacade,
-        networkHandler: Boolean
+        networkHandler: NetworkHandler
     ): LaunchesRepository = LaunchesRepositoryImp(
-            spaceXService,
-            launchesDao,
-            dataMappersFacade,
-            networkHandler
-        )
+        spaceXService,
+        launchesDao,
+        dataMappersFacade,
+        networkHandler
+    )
 
     @Provides
     private fun provideDataMappersFacade(): DataMappersFacade =

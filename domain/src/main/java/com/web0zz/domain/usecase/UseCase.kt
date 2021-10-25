@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 abstract class UseCase<out Type, out Failure, in Params> where Type : Any {
 
-    abstract suspend fun run(params: Params) : Flow<Result<Type, Failure>>
+    abstract suspend fun run(params: Params): Flow<Result<Type, Failure>>
 
     @DelicateCoroutinesApi
     operator fun invoke(
