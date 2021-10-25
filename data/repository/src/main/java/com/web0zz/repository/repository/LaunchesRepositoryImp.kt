@@ -9,6 +9,7 @@ import com.web0zz.domain.model.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.model.LaunchesDto
+import com.web0zz.network.util.NetworkHandler
 import com.web0zz.network.util.getResponse
 import com.web0zz.repository.mapper.DataMappersFacade
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +24,7 @@ class LaunchesRepositoryImp @Inject constructor(
     private val apiService: SpaceXService,
     private val launchesDao: LaunchesDao,
     private val dataMappersFacade: DataMappersFacade,
-    // TODO NetworkHandler will check network state
-    private val networkHandler: Boolean
+    private val networkHandler: NetworkHandler
 ) : LaunchesRepository {
     // TODO Set Failure class, don't throw exception
 
@@ -35,7 +35,7 @@ class LaunchesRepositoryImp @Inject constructor(
     override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> = flow {
         lateinit var result : Result<List<Launches>, Failure>
 
-        if(networkHandler) {
+        if(networkHandler.checkNetworkStat()) {
             val apiResponse : List<LaunchesDto> = apiService.getLaunches().getResponse()
 
             result = if (apiResponse.isNotEmpty()) {
@@ -70,7 +70,7 @@ class LaunchesRepositoryImp @Inject constructor(
 
             Ok(data)
         } else {
-            if (networkHandler) {
+            if (networkHandler.checkNetworkStat()) {
                 val apiResponse = apiService.getLaunchesById(launchesId).getResponse()
 
                 if (apiResponse.isNotEmpty()) {
