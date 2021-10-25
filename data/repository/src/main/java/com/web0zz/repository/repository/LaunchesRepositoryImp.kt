@@ -29,7 +29,7 @@ class LaunchesRepositoryImp @Inject constructor(
 ) : LaunchesRepository {
 
     /**
-     *  [getResponse] can throw in case unexpected response, that will cause to skip load from cache
+     *  [getResponse] can throw exception in case unexpected response, that will cause to skip load from cache
      *  TODO fix that
      */
     override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> = flow {
