@@ -1,16 +1,16 @@
 package com.web0zz.core.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.web0zz.domain.exception.Failure
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 abstract class BaseViewModel : ViewModel() {
-    // TODO int -> failure model
 
-    private val _failure: MutableLiveData<Int> = MutableLiveData()
-    val failure: LiveData<Int> = _failure
+    private val _failure: MutableStateFlow<Failure?> = MutableStateFlow(null)
+    val failure: StateFlow<Failure?> = _failure
 
-    protected fun handleFailure(failure: Int) {
+    protected fun handleFailure(failure: Failure) {
         _failure.value = failure
     }
 }
