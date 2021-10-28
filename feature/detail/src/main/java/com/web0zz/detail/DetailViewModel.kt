@@ -26,7 +26,7 @@ class DetailViewModel @Inject constructor(
     private val _launch: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState.Loading)
     val launche: StateFlow<DetailUiState> = _launch
 
-    fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope, )
+    fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope, ::handleLaunch)
 
     // TODO can't get failure data with this algorithm find a way to pass
     private fun handleLaunch(launcheData: Flow<Result<List<Launches>, Failure>>) =
