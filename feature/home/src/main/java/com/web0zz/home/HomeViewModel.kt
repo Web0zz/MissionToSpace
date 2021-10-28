@@ -24,19 +24,18 @@ class HomeViewModel @Inject constructor(
     private val _launches: MutableStateFlow<HomeUiState> = MutableStateFlow(HomeUiState.Loading)
     val launches: StateFlow<HomeUiState> = _launches
 
-    fun loadLaunches() = getLaunchesUseCase(UseCase.None(), viewModelScope) {
-        /*it.fold(::handleFailure, ::handleLaunchesList)*/
-    }
+    fun loadLaunches() = getLaunchesUseCase(UseCase.None(), viewModelScope, ::handleLaunchesList)
 
     // TODO can't get failure data with this algorithm find a way to pass
-    private suspend fun handleLaunchesList(launches: Flow<Result<List<Launches>, Failure>>) {
-        launches.collect { result ->
-            when(result) {
-                is Ok -> HomeUiState.Success(result.value)
-                is Err -> HomeUiState.Error("Error")
+    private fun handleLaunchesList(launches: Flow<Result<List<Launches>, Failure>>) =
+        viewModelScope.launch {
+            launches.collect { result ->
+                when(result) {
+                    is Ok -> HomeUiState.Success(result.value)
+                    is Err -> HomeUiState.Error("Error")
+                }
             }
         }
-    }
 
     sealed class HomeUiState {
         object Loading : HomeUiState()
