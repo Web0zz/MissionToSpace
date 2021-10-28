@@ -27,9 +27,9 @@ class HomeViewModel @Inject constructor(
     fun loadLaunches() = getLaunchesUseCase(UseCase.None(), viewModelScope, ::handleLaunchesList)
 
     // TODO can't get failure data with this algorithm find a way to pass
-    private fun handleLaunchesList(launches: Flow<Result<List<Launches>, Failure>>) =
+    private fun handleLaunchesList(launchesData: Flow<Result<List<Launches>, Failure>>) =
         viewModelScope.launch {
-            launches.collect { result ->
+            launchesData.collect { result ->
                 when(result) {
                     is Ok -> HomeUiState.Success(result.value)
                     is Err -> HomeUiState.Error("Error")
