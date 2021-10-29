@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
+import com.github.michaelbull.result.mapBoth
 import com.web0zz.core.base.BaseViewModel
 import com.web0zz.domain.exception.Failure
 import com.web0zz.domain.model.Launches
@@ -26,18 +27,17 @@ class DetailViewModel @Inject constructor(
     private val _launch: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState.Loading)
     val launche: StateFlow<DetailUiState> = _launch
 
-    fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope, ::handleLaunch)
-
-    // TODO can't get failure data with this algorithm find a way to pass
-    private fun handleLaunch(launcheData: Flow<Result<List<Launches>, Failure>>) =
+    fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope) {
         viewModelScope.launch {
-            launcheData.collect { result ->
-                when(result) {
-                    is Ok -> DetailUiState.Success(result.value.first())
-                    is Err -> DetailUiState.Error("Error")
-                }
+            it.collect { result ->
+                result.mapBoth(::handleLaunch, ::handleFailure)
             }
         }
+    }
+
+    private fun handleLaunch(launcheData: List<Launches>) {
+        _launch.value = DetailUiState.Success(launcheData.first())
+    }
 
     sealed class DetailUiState {
         object Loading : DetailUiState()
