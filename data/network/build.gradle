@@ -4,6 +4,9 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
 dependencies {
+    // Kotlin Coroutines
+    api domainDependencies.coroutinesLib
+
     // Hilt
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib

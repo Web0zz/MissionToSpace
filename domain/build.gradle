@@ -9,7 +9,7 @@ java {
 }
 
 dependencies {
-    // Kotlin
+    // Kotlin Coroutines
     api domainDependencies.coroutinesLib
 
     // Kotlin-Result
