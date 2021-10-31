@@ -18,7 +18,8 @@ import com.web0zz.cache.util.Constants.DB_VERSION
     LinksEntityConverter::class,
     PatchEntityConverter::class,
     RedditEntityConverter::class,
-    FlickrEntityConverter::class
+    FlickrEntityConverter::class,
+    StringListConverter::class
 )
 @Database(
     entities = [LaunchesEntity::class],

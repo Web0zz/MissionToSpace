@@ -33,10 +33,12 @@ ext {
     gsonVersion = '2.8.8'
 
     // Testing
+    testRunnerVersion = '1.0.2'
     junitVersion = '4.13.2'
     extjunitVersion = '1.1.3'
     espressoVersion = '3.4.0'
     truthVersion = '1.1.3'
+    coroutinesTestVersion = '1.5.1'
 
     commonDependencies = [
             coreLib                  : "androidx.core:core-ktx:$coreVersion",
@@ -52,10 +54,15 @@ ext {
     ]
 
     commonTestDependencies = [
+            testRunnerLib: "com.android.support.test:runner:$testRunnerVersion",
             junitLib   : "junit:junit:$junitVersion",
             extJunitLib: "androidx.test.ext:junit:$extjunitVersion",
+
             espressoLib: "androidx.test.espresso:espresso-core:$espressoVersion",
-            truthLib   : "com.google.truth:truth:$truthVersion"
+
+            truthLib   : "com.google.truth:truth:$truthVersion",
+
+            coroutinesTestLib: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion"
     ]
 
     appDependencies = [
@@ -82,7 +89,8 @@ ext {
 
             // Room
             roomLib        : "androidx.room:room-runtime:$roomVersion",
-            roomCompilerLib: "androidx.room:room-compiler:$roomVersion"
+            roomCompilerLib: "androidx.room:room-compiler:$roomVersion",
+            roomKtxLib : "androidx.room:room-ktx:$roomVersion"
     ]
 
     dataNetworkDependencies = [

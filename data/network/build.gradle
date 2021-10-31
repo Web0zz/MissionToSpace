@@ -9,6 +9,6 @@ dependencies {
     kapt commonDependencies.hiltCompilerLib
 
     // Retrofit
-    implementation dataNetworkDependencies.refrofitLib
+    api dataNetworkDependencies.refrofitLib
     implementation dataNetworkDependencies.retrofitGsonLib
 }

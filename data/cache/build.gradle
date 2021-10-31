@@ -3,6 +3,12 @@ apply from: "$rootDir/common-android-library.gradle"
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
+android {
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
+}
+
 dependencies {
     // Coroutines
     implementation dataCacheDependencies.coroutinesLib
@@ -12,9 +18,17 @@ dependencies {
 
     // Room
     implementation dataCacheDependencies.roomLib
-    annotationProcessor dataCacheDependencies.roomCompilerLib
+    implementation dataCacheDependencies.roomKtxLib
+    kapt dataCacheDependencies.roomCompilerLib
 
     // Hilt
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib
+
+    // Testing
+    androidTestImplementation commonTestDependencies.testRunnerLib
+    androidTestImplementation commonTestDependencies.junitLib
+    androidTestImplementation commonTestDependencies.extJunitLib
+    androidTestImplementation commonTestDependencies.truthLib
+    androidTestImplementation commonTestDependencies.coroutinesTestLib
 }

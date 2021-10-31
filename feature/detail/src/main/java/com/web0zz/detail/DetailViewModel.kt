@@ -1,17 +1,12 @@
 package com.web0zz.detail
 
 import androidx.lifecycle.viewModelScope
-import com.github.michaelbull.result.Err
-import com.github.michaelbull.result.Ok
-import com.github.michaelbull.result.Result
 import com.github.michaelbull.result.mapBoth
 import com.web0zz.core.base.BaseViewModel
-import com.web0zz.domain.exception.Failure
 import com.web0zz.domain.model.Launches
 import com.web0zz.domain.usecase.GetLaunchesByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect

@@ -37,7 +37,7 @@ object RepositoryModule {
     )
 
     @Provides
-    private fun provideDataMappersFacade(): DataMappersFacade =
+    fun provideDataMappersFacade(): DataMappersFacade =
         DataMappersFacade(
             makeLaunchesDtoDataMapper(),
             makeLaunchesEntityDataMapper(),
