@@ -2,7 +2,6 @@ apply from: "$rootDir/common-android-library.gradle"
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
-
 android {
     packagingOptions {
         resources.excludes.add("META-INF/*")

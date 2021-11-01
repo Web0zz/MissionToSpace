@@ -5,7 +5,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
 
-// TODO need to test this function
 inline fun <reified T> Response<T>.getResponse(): T {
     val responseBody = body()
     return if (this.isSuccessful && responseBody != null) {

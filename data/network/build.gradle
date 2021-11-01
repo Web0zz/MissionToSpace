@@ -14,4 +14,12 @@ dependencies {
     // Retrofit
     api dataNetworkDependencies.refrofitLib
     implementation dataNetworkDependencies.retrofitGsonLib
+
+    // Test
+    testImplementation commonTestDependencies.junitLib
+    testImplementation commonTestDependencies.extJunitLib
+    testImplementation commonTestDependencies.truthLib
+    testImplementation commonTestDependencies.coroutinesTestLib
+
+    testImplementation dataNetworkDependencies.mockWebServerLib
 }

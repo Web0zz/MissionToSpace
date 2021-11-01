@@ -6,7 +6,10 @@ import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import androidx.lifecycle.LiveData
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 sealed class NetworkStatus {
@@ -22,11 +25,11 @@ class NetworkHandler @Inject constructor(
     private var connectivityManager: ConnectivityManager =
         appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    private val validNetworkConnections : ArrayList<Network> = ArrayList()
+    private val validNetworkConnections: ArrayList<Network> = ArrayList()
     private lateinit var connectivityManagerCallback: ConnectivityManager.NetworkCallback
 
     private fun announceStatus() {
-        when(validNetworkConnections.isNotEmpty()) {
+        when (validNetworkConnections.isNotEmpty()) {
             true -> postValue(NetworkStatus.Available)
             false -> postValue(NetworkStatus.UnAvailable)
         }
@@ -42,7 +45,7 @@ class NetworkHandler @Inject constructor(
                 networkCapability
                     ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
 
-            if (hasNetworkConnection){
+            if (hasNetworkConnection) {
                 determineInternetAccess(network)
             }
         }
@@ -68,9 +71,9 @@ class NetworkHandler @Inject constructor(
     }
 
     private fun determineInternetAccess(network: Network) {
-        coroutineScope.launch{
-            if (InternetAvailability.check()){
-                withContext(Dispatchers.Main){
+        coroutineScope.launch {
+            if (InternetAvailability.check()) {
+                withContext(Dispatchers.Main) {
                     validNetworkConnections.add(network)
                     announceStatus()
                 }
