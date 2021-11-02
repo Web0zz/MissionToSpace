@@ -7,7 +7,7 @@ sealed class NetworkResponse<out T : Any> {
     data class Error(val message: String) : NetworkResponse<Nothing>()
 }
 
-internal inline fun <T: Any> getResponse(call: () -> Response<T>): NetworkResponse<T> {
+internal inline fun <T : Any> getResponse(call: () -> Response<T>): NetworkResponse<T> {
     val response: Response<T>
     try {
         response = call()
@@ -15,14 +15,14 @@ internal inline fun <T: Any> getResponse(call: () -> Response<T>): NetworkRespon
         return NetworkResponse.Error("Failed to request")
     }
 
-    return if(!response.isSuccessful) {
+    return if (!response.isSuccessful) {
         val errorBody = response.errorBody()
 
         // Api will never return large error body
         @Suppress("BlockingMethodInNonBlockingContext")
         NetworkResponse.Error(errorBody?.string() ?: "Failed")
     } else {
-        return if(response.body() == null) {
+        return if (response.body() == null) {
             NetworkResponse.Error("Don't know what happened to data")
         } else {
             NetworkResponse.Success(response.body()!!)

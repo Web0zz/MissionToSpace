@@ -31,16 +31,21 @@ class LaunchesRepositoryImp @Inject constructor(
         try {
             lateinit var result: Result<List<Launches>, Failure>
 
-            when(networkHelper.getConnectionStatus()) {
+            when (networkHelper.getConnectionStatus()) {
                 is NetworkStatus.Available -> {
                     val apiResponse: NetworkResponse<List<LaunchesDto>> = apiService.getLaunches()
 
-                    result = when(apiResponse) {
+                    result = when (apiResponse) {
                         is NetworkResponse.Success -> {
-                            val data = apiResponse.data.map { dataMappersFacade.launchesDtoMapper(it) }
+                            val data =
+                                apiResponse.data.map { dataMappersFacade.launchesDtoMapper(it) }
 
                             launchesDao.insertLaunches(
-                                apiResponse.data.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
+                                apiResponse.data.map {
+                                    dataMappersFacade.launchesDtoToEntityMapper(
+                                        it
+                                    )
+                                }
                             )
                             Ok(data)
                         }
@@ -75,19 +80,26 @@ class LaunchesRepositoryImp @Inject constructor(
 
                 result =
                     if (cacheResponse.isNotEmpty()) {
-                        val data = cacheResponse.first().let { dataMappersFacade.launchesEntityMapper(it) }
+                        val data =
+                            cacheResponse.first().let { dataMappersFacade.launchesEntityMapper(it) }
 
                         Ok(data)
                     } else {
-                        when(networkHelper.getConnectionStatus()) {
+                        when (networkHelper.getConnectionStatus()) {
                             is NetworkStatus.Available -> {
-                                when(val apiResponse = apiService.getLaunchesById(launchesId)) {
+                                when (val apiResponse = apiService.getLaunchesById(launchesId)) {
                                     is NetworkResponse.Success -> {
-                                        val data = apiResponse.data.let { dataMappersFacade.launchesDtoMapper(it) }
+                                        val data = apiResponse.data.let {
+                                            dataMappersFacade.launchesDtoMapper(it)
+                                        }
 
                                         launchesDao.insertLaunches(
                                             listOf(
-                                                apiResponse.data.let { dataMappersFacade.launchesDtoToEntityMapper(it) }
+                                                apiResponse.data.let {
+                                                    dataMappersFacade.launchesDtoToEntityMapper(
+                                                        it
+                                                    )
+                                                }
                                             )
                                         )
                                         Ok(data)

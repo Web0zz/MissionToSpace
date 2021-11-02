@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ class NetworkHelper @Inject constructor(
 
             val networkCapability = connectivityManager.getNetworkCapabilities(network)
             val hasNetworkConnection = networkCapability
-                    ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
+                ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
 
             if (hasNetworkConnection) {
                 determineInternetAccess()
