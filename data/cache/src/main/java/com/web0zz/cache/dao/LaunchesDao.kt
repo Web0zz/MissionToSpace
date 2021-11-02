@@ -16,5 +16,5 @@ interface LaunchesDao {
     fun getAllLaunches(): List<LaunchesEntity>
 
     @Query("SELECT * FROM '$LAUNCHES_TABLE' WHERE id=:launchesId")
-    fun getLaunches(launchesId: String): List<LaunchesEntity>
+    fun getLaunchesById(launchesId: String): List<LaunchesEntity>
 }

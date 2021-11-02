@@ -10,12 +10,12 @@ import com.web0zz.domain.model.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.model.LaunchesDto
-import com.web0zz.network.util.NetworkHandler
-import com.web0zz.network.util.getResponse
+import com.web0zz.network.util.NetworkHelper
+import com.web0zz.network.util.NetworkResponse
+import com.web0zz.network.util.NetworkStatus
 import com.web0zz.repository.mapper.DataMappersFacade
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,38 +24,40 @@ class LaunchesRepositoryImp @Inject constructor(
     private val apiService: SpaceXService,
     private val launchesDao: LaunchesDao,
     private val dataMappersFacade: DataMappersFacade,
-    private val networkHandler: NetworkHandler
+    private val networkHelper: NetworkHelper
 ) : LaunchesRepository {
 
-    /**
-     *  [getResponse] can throw exception in case unexpected response, that will cause to skip load from cache
-     *  TODO fix that
-     */
     override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> = flow {
         try {
             lateinit var result: Result<List<Launches>, Failure>
 
-            if (networkHandler.checkNetworkStat()) {
-                val apiResponse: List<LaunchesDto> = apiService.getLaunches().getResponse()
+            when(networkHelper.getConnectionStatus()) {
+                is NetworkStatus.Available -> {
+                    val apiResponse: NetworkResponse<List<LaunchesDto>> = apiService.getLaunches()
 
-                result = if (apiResponse.isNotEmpty()) {
-                    val data = apiResponse.map { dataMappersFacade.launchesDtoMapper(it) }
+                    result = when(apiResponse) {
+                        is NetworkResponse.Success -> {
+                            val data = apiResponse.data.map { dataMappersFacade.launchesDtoMapper(it) }
 
-                    launchesDao.insertLaunches(
-                        apiResponse.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
-                    )
-                    Ok(data)
-                } else {
+                            launchesDao.insertLaunches(
+                                apiResponse.data.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
+                            )
+                            Ok(data)
+                        }
+                        is NetworkResponse.Error -> {
+                            val data = launchesDao.getAllLaunches()
+                                .map { dataMappersFacade.launchesEntityMapper(it) }
+
+                            Ok(data)
+                        }
+                    }
+                }
+                is NetworkStatus.UnAvailable -> {
                     val data = launchesDao.getAllLaunches()
                         .map { dataMappersFacade.launchesEntityMapper(it) }
 
-                    Ok(data)
+                    result = Ok(data)
                 }
-            } else {
-                val data = launchesDao.getAllLaunches()
-                    .map { dataMappersFacade.launchesEntityMapper(it) }
-
-                result = Ok(data)
             }
 
             emit(result)
@@ -66,29 +68,40 @@ class LaunchesRepositoryImp @Inject constructor(
 
     override suspend fun getLaunchesById(launchesId: String): Flow<Result<Launches, Failure>> =
         flow {
+            lateinit var result: Result<Launches, Failure>
+
             try {
-                val cacheResponse: List<LaunchesEntity> = launchesDao.getLaunches(launchesId)
+                val cacheResponse: List<LaunchesEntity> = launchesDao.getLaunchesById(launchesId)
 
-                val result: Result<Launches, Failure> = if (cacheResponse.isNotEmpty()) {
-                    val data = cacheResponse.map { dataMappersFacade.launchesEntityMapper(it) }
+                result =
+                    if (cacheResponse.isNotEmpty()) {
+                        val data = cacheResponse.first().let { dataMappersFacade.launchesEntityMapper(it) }
 
-                    Ok(data)
-                } else {
-                    if (networkHandler.checkNetworkStat()) {
-                        val apiResponse = apiService.getLaunchesById(launchesId).getResponse()
+                        Ok(data)
+                    } else {
+                        when(networkHelper.getConnectionStatus()) {
+                            is NetworkStatus.Available -> {
+                                when(val apiResponse = apiService.getLaunchesById(launchesId)) {
+                                    is NetworkResponse.Success -> {
+                                        val data = apiResponse.data.let { dataMappersFacade.launchesDtoMapper(it) }
 
-                        if (apiResponse.isNotEmpty()) {
-                            val data = apiResponse.map { dataMappersFacade.launchesDtoMapper(it) }
-
-                            launchesDao.insertLaunches(
-                                apiResponse.map { dataMappersFacade.launchesDtoToEntityMapper(it) }
-                            )
-                            Ok(data)
-                        } else {
-                            throw IOException("Error")
+                                        launchesDao.insertLaunches(
+                                            listOf(
+                                                apiResponse.data.let { dataMappersFacade.launchesDtoToEntityMapper(it) }
+                                            )
+                                        )
+                                        Ok(data)
+                                    }
+                                    is NetworkResponse.Error -> {
+                                        Err(Failure.ApiResponseError(apiResponse.message))
+                                    }
+                                }
+                            }
+                            is NetworkStatus.UnAvailable -> {
+                                Err(Failure.NetworkConnectionError("Unavailable connection"))
+                            }
                         }
-                    } else throw IOException("Error")
-                }
+                    }
 
                 emit(result)
             } catch (e: Exception) {

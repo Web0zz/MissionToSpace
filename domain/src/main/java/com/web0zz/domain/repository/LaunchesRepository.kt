@@ -7,5 +7,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface LaunchesRepository {
     suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>>
-    suspend fun getLaunchesById(launchesId: String): Flow<Result<List<Launches>, Failure>>
+    suspend fun getLaunchesById(launchesId: String): Flow<Result<Launches, Failure>>
 }

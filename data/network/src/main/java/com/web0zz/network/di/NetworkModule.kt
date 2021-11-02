@@ -3,7 +3,7 @@ package com.web0zz.network.di
 import android.content.Context
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.util.Constants.BASE_URL
-import com.web0zz.network.util.NetworkHandler
+import com.web0zz.network.util.NetworkHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -21,8 +21,8 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideNetworkHandler(@ApplicationContext appContext: Context): NetworkHandler =
-        NetworkHandler(appContext)
+    fun provideNetworkHelper(@ApplicationContext appContext: Context): NetworkHelper =
+        NetworkHelper(appContext)
 
     @Provides
     @Singleton

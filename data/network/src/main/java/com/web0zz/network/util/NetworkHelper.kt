@@ -17,23 +17,16 @@ sealed class NetworkStatus {
     object UnAvailable : NetworkStatus()
 }
 
-class NetworkHandler @Inject constructor(
+class NetworkHelper @Inject constructor(
     appContext: Context,
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
-) : LiveData<NetworkStatus>() {
+) {
 
     private var connectivityManager: ConnectivityManager =
         appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-    private val validNetworkConnections: ArrayList<Network> = ArrayList()
+    private var validNetworkConnections: Boolean = false
     private lateinit var connectivityManagerCallback: ConnectivityManager.NetworkCallback
-
-    private fun announceStatus() {
-        when (validNetworkConnections.isNotEmpty()) {
-            true -> postValue(NetworkStatus.Available)
-            false -> postValue(NetworkStatus.UnAvailable)
-        }
-    }
 
     private fun getConnectivityManagerCallback() = object : ConnectivityManager.NetworkCallback() {
 
@@ -41,48 +34,26 @@ class NetworkHandler @Inject constructor(
             super.onAvailable(network)
 
             val networkCapability = connectivityManager.getNetworkCapabilities(network)
-            val hasNetworkConnection =
-                networkCapability
+            val hasNetworkConnection = networkCapability
                     ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) ?: false
 
             if (hasNetworkConnection) {
-                determineInternetAccess(network)
+                determineInternetAccess()
             }
-        }
-
-        override fun onLost(network: Network) {
-            super.onLost(network)
-            validNetworkConnections.remove(network)
-            announceStatus()
-        }
-
-        override fun onCapabilitiesChanged(
-            network: Network,
-            networkCapabilities: NetworkCapabilities
-        ) {
-            super.onCapabilitiesChanged(network, networkCapabilities)
-
-            when (networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)) {
-                true -> determineInternetAccess(network)
-                else -> validNetworkConnections.remove(network)
-            }
-            announceStatus()
         }
     }
 
-    private fun determineInternetAccess(network: Network) {
+    private fun determineInternetAccess() {
         coroutineScope.launch {
             if (InternetAvailability.check()) {
                 withContext(Dispatchers.Main) {
-                    validNetworkConnections.add(network)
-                    announceStatus()
+                    validNetworkConnections = true
                 }
             }
         }
     }
 
-    override fun onActive() {
-        super.onActive()
+    fun getConnectionStatus(): NetworkStatus {
         connectivityManagerCallback = getConnectivityManagerCallback()
         val networkRequest = NetworkRequest
             .Builder()
@@ -90,10 +61,13 @@ class NetworkHandler @Inject constructor(
             .build()
 
         connectivityManager.registerNetworkCallback(networkRequest, connectivityManagerCallback)
-    }
 
-    override fun onInactive() {
-        super.onInactive()
+        val status = when (validNetworkConnections) {
+            true -> NetworkStatus.Available
+            false -> NetworkStatus.UnAvailable
+        }
+
         connectivityManager.unregisterNetworkCallback(connectivityManagerCallback)
+        return status
     }
 }
