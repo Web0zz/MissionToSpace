@@ -64,12 +64,12 @@ class LaunchesRepositoryImp @Inject constructor(
         }
     }
 
-    override suspend fun getLaunchesById(launchesId: String): Flow<Result<List<Launches>, Failure>> =
+    override suspend fun getLaunchesById(launchesId: String): Flow<Result<Launches, Failure>> =
         flow {
             try {
                 val cacheResponse: List<LaunchesEntity> = launchesDao.getLaunches(launchesId)
 
-                val result: Result<List<Launches>, Failure> = if (cacheResponse.isNotEmpty()) {
+                val result: Result<Launches, Failure> = if (cacheResponse.isNotEmpty()) {
                     val data = cacheResponse.map { dataMappersFacade.launchesEntityMapper(it) }
 
                     Ok(data)

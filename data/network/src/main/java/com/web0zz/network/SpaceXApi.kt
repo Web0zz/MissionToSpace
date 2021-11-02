@@ -12,7 +12,5 @@ interface SpaceXApi {
     suspend fun getLaunches(): Response<List<LaunchesDto>>
 
     @GET("$LATEST_VERSION$LAUNCHES/{id}")
-    suspend fun getLaunchesById(
-        @Path("id") launchesId: String
-    ): Response<LaunchesDto>
+    suspend fun getLaunchesById(@Path("id") launchesId: String): Response<LaunchesDto>
 }
