@@ -3,9 +3,9 @@ package com.web0zz.network.model
 import com.google.gson.annotations.SerializedName
 
 data class LinksDto(
-    @SerializedName("patch") val patch: PatchDto,
-    @SerializedName("reddit") val reddit: RedditDto,
-    @SerializedName("flickr") val flickr: FlickrDto,
+    @SerializedName("patch") val patch: PatchDto?,
+    @SerializedName("reddit") val reddit: RedditDto?,
+    @SerializedName("flickr") val flickr: FlickrDto?,
     @SerializedName("presskit") val presskit: String?,
     @SerializedName("webcast") val webcast: String?,
     @SerializedName("youtube_id") val youtubeId: String?,
@@ -27,8 +27,8 @@ data class LinksDto(
         )
 
         data class FlickrDto(
-            @SerializedName("small") val small: List<String>,
-            @SerializedName("original") val original: List<String>
+            @SerializedName("small") val small: List<String>?,
+            @SerializedName("original") val original: List<String>?
         )
     }
 }

@@ -8,40 +8,50 @@ import com.web0zz.network.model.LaunchesDto
 fun mapLaunchesDtoToEntity(input: LaunchesDto): LaunchesEntity {
     return LaunchesEntity(
         input.id,
-        FairingsEntity(
-            input.fairings.reused,
-            input.fairings.recoveryAttempt,
-            input.fairings.recovered,
-            input.fairings.ships
-        ),
-        LinksEntity(
-            LinksEntity.Companion.PatchEntity(
-                input.links.patch.small,
-                input.links.patch.large
-            ),
-            LinksEntity.Companion.RedditEntity(
-                input.links.reddit.campaign,
-                input.links.reddit.launch,
-                input.links.reddit.media,
-                input.links.reddit.recovery
-            ),
-            LinksEntity.Companion.FlickrEntity(
-                input.links.flickr.small,
-                input.links.flickr.original
-            ),
-            input.links.presskit,
-            input.links.webcast,
-            input.links.youtubeId,
-            input.links.article,
-            input.links.wikipedia,
-        ),
+        input.fairings?.let {
+            FairingsEntity(
+                it.reused,
+                it.recoveryAttempt,
+                it.recovered,
+                it.ships
+            )
+        },
+        input.links?.let { links ->
+            LinksEntity(
+                links.patch?.let {
+                    LinksEntity.Companion.PatchEntity(
+                        it.small,
+                        it.large
+                    )
+                },
+                links.reddit?.let {
+                    LinksEntity.Companion.RedditEntity(
+                        it.campaign,
+                        it.launch,
+                        it.media,
+                        it.recovery
+                    )
+                },
+                links.flickr?.let {
+                    LinksEntity.Companion.FlickrEntity(
+                        it.small,
+                        it.original
+                    )
+                },
+                links.presskit,
+                links.webcast,
+                links.youtubeId,
+                links.article,
+                links.wikipedia,
+            )
+        },
         input.staticFireDateUtc,
         input.staticFireDateUnix,
         input.net,
         input.window,
         input.rocket,
         input.success,
-        input.failures.map { mapFailuresDto(it) },
+        input.failures?.let { fail -> fail.map { mapFailuresDto(it) } },
         input.details,
         input.crew,
         input.ships,
@@ -55,7 +65,7 @@ fun mapLaunchesDtoToEntity(input: LaunchesDto): LaunchesEntity {
         input.dateLocal,
         input.datePrecision,
         input.upcoming,
-        input.cores.map { mapCoresDto(it) },
+        input.cores?.let { core -> core.map { mapCoresDto(it) } },
         input.autoUpdate,
         input.tbd,
         input.launchLibraryId

@@ -6,5 +6,5 @@ data class FairingsDto(
     @SerializedName("reused") val reused: Boolean?,
     @SerializedName("recovery_attempt") val recoveryAttempt: Boolean?,
     @SerializedName("recovered") val recovered: Boolean?,
-    @SerializedName("ships") val ships: List<String>
+    @SerializedName("ships") val ships: List<String>?
 )

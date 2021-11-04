@@ -8,40 +8,50 @@ import com.web0zz.domain.model.*
 fun mapLaunchesEntity(input: LaunchesEntity): Launches {
     return Launches(
         input.id,
-        Fairings(
-            input.fairings.reused,
-            input.fairings.recoveryAttempt,
-            input.fairings.recovered,
-            input.fairings.ships
-        ),
-        Links(
-            Links.Companion.Patch(
-                input.links.patch.small,
-                input.links.patch.large
-            ),
-            Links.Companion.Reddit(
-                input.links.reddit.campaign,
-                input.links.reddit.launch,
-                input.links.reddit.media,
-                input.links.reddit.recovery
-            ),
-            Links.Companion.Flickr(
-                input.links.flickr.small,
-                input.links.flickr.original
-            ),
-            input.links.presskit,
-            input.links.webcast,
-            input.links.youtubeId,
-            input.links.article,
-            input.links.wikipedia,
-        ),
+        input.fairings?.let {
+            Fairings(
+                it.reused,
+                it.recoveryAttempt,
+                it.recovered,
+                it.ships
+            )
+        },
+        input.links?.let {
+            Links(
+                it.patch?.let { patch ->
+                    Links.Companion.Patch(
+                        patch.small,
+                        patch.large
+                    )
+                },
+                it.reddit?.let { reddit ->
+                    Links.Companion.Reddit(
+                        reddit.campaign,
+                        reddit.launch,
+                        reddit.media,
+                        reddit.recovery
+                    )
+                },
+                it.flickr?.let { flickr ->
+                    Links.Companion.Flickr(
+                        flickr.small,
+                        flickr.original
+                    )
+                },
+                it.presskit,
+                it.webcast,
+                it.youtubeId,
+                it.article,
+                it.wikipedia,
+            )
+        },
         input.staticFireDateUtc,
         input.staticFireDateUnix,
         input.net,
         input.window,
         input.rocket,
         input.success,
-        input.failures.map { mapFailuresEntity(it) },
+        input.failures?.let { fail -> fail.map { mapFailuresEntity(it) } },
         input.details,
         input.crew,
         input.ships,
@@ -55,7 +65,7 @@ fun mapLaunchesEntity(input: LaunchesEntity): Launches {
         input.dateLocal,
         input.datePrecision,
         input.upcoming,
-        input.cores.map { mapCoresEntity(it) },
+        input.cores?.let { core -> core.map { mapCoresEntity(it) } },
         input.autoUpdate,
         input.tbd,
         input.launchLibraryId

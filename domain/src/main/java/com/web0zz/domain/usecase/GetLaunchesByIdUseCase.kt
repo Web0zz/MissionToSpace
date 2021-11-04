@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 
 class GetLaunchesByIdUseCase(
     private val launchesRepository: LaunchesRepository
-) : UseCase<List<Launches>, Failure, String>() {
-    override suspend fun run(params: String): Flow<Result<List<Launches>, Failure>> =
+) : UseCase<Launches, Failure, String>() {
+    override suspend fun run(params: String): Flow<Result<Launches, Failure>> =
         launchesRepository.getLaunchesById(params)
 }

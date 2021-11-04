@@ -11,4 +11,11 @@ dependencies {
     // Hilt
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib
+
+    // Testing
+    testImplementation commonTestDependencies.mockitoLib
+    testImplementation commonTestDependencies.mockitoKotlinLib
+    testImplementation commonTestDependencies.junitLib
+    testImplementation commonTestDependencies.extJunitLib
+    testImplementation commonTestDependencies.truthLib
 }

@@ -42,9 +42,7 @@ class LaunchesRepositoryImp @Inject constructor(
 
                             launchesDao.insertLaunches(
                                 apiResponse.data.map {
-                                    dataMappersFacade.launchesDtoToEntityMapper(
-                                        it
-                                    )
+                                    dataMappersFacade.launchesDtoToEntityMapper(it)
                                 }
                             )
                             Ok(data)

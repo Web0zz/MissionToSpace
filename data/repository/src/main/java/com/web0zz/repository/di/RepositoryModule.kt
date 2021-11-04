@@ -6,7 +6,7 @@ import com.web0zz.domain.model.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.model.LaunchesDto
-import com.web0zz.network.util.NetworkHandler
+import com.web0zz.network.util.NetworkHelper
 import com.web0zz.repository.mapper.DataMappersFacade
 import com.web0zz.repository.mapper.mapLaunchesDto
 import com.web0zz.repository.mapper.mapLaunchesDtoToEntity
@@ -28,12 +28,12 @@ object RepositoryModule {
         spaceXService: SpaceXService,
         launchesDao: LaunchesDao,
         dataMappersFacade: DataMappersFacade,
-        networkHandler: NetworkHandler
+        networkHelper: NetworkHelper
     ): LaunchesRepository = LaunchesRepositoryImp(
         spaceXService,
         launchesDao,
         dataMappersFacade,
-        networkHandler
+        networkHelper
     )
 
     @Provides
