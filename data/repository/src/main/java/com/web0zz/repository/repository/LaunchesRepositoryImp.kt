@@ -27,47 +27,53 @@ class LaunchesRepositoryImp @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : LaunchesRepository {
 
-    override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> = flow {
-        try {
+    override suspend fun getLaunchesData(): Flow<Result<List<Launches>, Failure>> =
+        flow {
             lateinit var result: Result<List<Launches>, Failure>
 
-            when (networkHelper.getConnectionStatus()) {
-                is NetworkStatus.Available -> {
-                    val apiResponse: NetworkResponse<List<LaunchesDto>> = apiService.getLaunches()
+            try {
+                when (networkHelper.getConnectionStatus()) {
+                    is NetworkStatus.Available -> {
+                        val apiResponse: NetworkResponse<List<LaunchesDto>> = apiService.getLaunches()
 
-                    result = when (apiResponse) {
-                        is NetworkResponse.Success -> {
-                            val data =
-                                apiResponse.data.map { dataMappersFacade.launchesDtoMapper(it) }
+                        result = when (apiResponse) {
+                            is NetworkResponse.Success -> {
+                                val data =
+                                    apiResponse.data.map { dataMappersFacade.launchesDtoMapper(it) }
 
-                            launchesDao.insertLaunches(
-                                apiResponse.data.map {
-                                    dataMappersFacade.launchesDtoToEntityMapper(it)
-                                }
-                            )
-                            Ok(data)
-                        }
-                        is NetworkResponse.Error -> {
-                            val data = launchesDao.getAllLaunches()
-                                .map { dataMappersFacade.launchesEntityMapper(it) }
+                                launchesDao.insertLaunches(
+                                    apiResponse.data.map {
+                                        dataMappersFacade.launchesDtoToEntityMapper(it)
+                                    }
+                                )
+                                Ok(data)
+                            }
+                            is NetworkResponse.Error -> {
+                                val data = launchesDao.getAllLaunches()
+                                    .map { dataMappersFacade.launchesEntityMapper(it) }
 
-                            Ok(data)
+                                if (data.isEmpty()) {
+                                    Err(Failure.ApiResponseError(apiResponse.message))
+                                } else Ok(data)
+                            }
                         }
                     }
-                }
-                is NetworkStatus.UnAvailable -> {
-                    val data = launchesDao.getAllLaunches()
-                        .map { dataMappersFacade.launchesEntityMapper(it) }
+                    is NetworkStatus.UnAvailable -> {
+                        val data = launchesDao.getAllLaunches()
+                            .map { dataMappersFacade.launchesEntityMapper(it) }
 
-                    result = Ok(data)
+                        result = if(data.isEmpty()) {
+                            Err(Failure.NetworkConnectionError("No network"))
+                        } else Ok(data)
+                    }
                 }
+
+                emit(result)
+            } catch (e: Exception) {
+                emit(Err(Failure.UnknownError(e.message ?: "Error")))
             }
-
-            emit(result)
-        } catch (e: Exception) {
-            emit(Err(Failure.UnknownError("Error")))
+            // TODO move catch bloc to extension of flow
         }
-    }
 
     override suspend fun getLaunchesById(launchesId: String): Flow<Result<Launches, Failure>> =
         flow {
@@ -94,12 +100,11 @@ class LaunchesRepositoryImp @Inject constructor(
                                         launchesDao.insertLaunches(
                                             listOf(
                                                 apiResponse.data.let {
-                                                    dataMappersFacade.launchesDtoToEntityMapper(
-                                                        it
-                                                    )
+                                                    dataMappersFacade.launchesDtoToEntityMapper(it)
                                                 }
                                             )
                                         )
+
                                         Ok(data)
                                     }
                                     is NetworkResponse.Error -> {
@@ -115,7 +120,8 @@ class LaunchesRepositoryImp @Inject constructor(
 
                 emit(result)
             } catch (e: Exception) {
-                emit(Err(Failure.UnknownError("Error")))
+                emit(Err(Failure.UnknownError(e.message ?: "Error")))
             }
+            // TODO move catch bloc to extension of flow
         }
 }
