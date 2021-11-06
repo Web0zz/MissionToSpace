@@ -30,8 +30,8 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun handleLaunch(launcheData: List<Launches>) {
-        _launch.value = DetailUiState.Success(launcheData.first())
+    private fun handleLaunch(launcheData: Launches) {
+        _launch.value = DetailUiState.Success(launcheData)
     }
 
     sealed class DetailUiState {

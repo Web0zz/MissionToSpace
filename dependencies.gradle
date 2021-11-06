@@ -6,13 +6,13 @@ ext {
     versionName = '1.0'
 
     // Default
-    coreVersion = '1.6.0'
+    coreVersion = '1.7.0'
     compatVersion = '1.3.1'
     materialVersion = '1.4.0'
     constraintVersion = '2.1.1'
 
     // Coroutines
-    coroutineVersion = '1.5.2-native-mt'
+    coroutineVersion = '1.5.2'
 
     // Hilt
     hiltVersion = '2.38.1'
@@ -27,7 +27,7 @@ ext {
     navVersion = '2.3.4'
 
     // Kotlin-Result
-    kotlinResultVersion = '1.1.12'
+    kotlinResultVersion = '1.1.13'
 
     // Gson
     gsonVersion = '2.8.8'
@@ -40,7 +40,7 @@ ext {
     truthVersion = '1.1.3'
     coroutinesTestVersion = '1.5.1'
     mockWebServerVersion = '4.9.2'
-    mockitoVersion = "4.0.0"
+    mockkVersion = "1.12.0"
 
     commonDependencies = [
             coreLib                  : "androidx.core:core-ktx:$coreVersion",
@@ -49,7 +49,6 @@ ext {
             // Kotlin-Result
             kotlinResultLib          : "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion",
             kotlinResultCoroutinesLib: "com.michael-bull.kotlin-result:kotlin-result-coroutines:$kotlinResultVersion",
-
             // Hilt - DI
             hiltAndroidLib           : "com.google.dagger:hilt-android:$hiltVersion",
             hiltCompilerLib          : "com.google.dagger:hilt-compiler:$hiltVersion"
@@ -66,8 +65,8 @@ ext {
 
             coroutinesTestLib: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion",
 
-            mockitoLib :"org.mockito:mockito-core:$mockitoVersion",
-            mockitoKotlinLib:"org.mockito.kotlin:mockito-kotlin:$mockitoVersion"
+            mockkLib         : "io.mockk:mockk:$mockkVersion",
+            mockkUnitLib     : "io.mockk:mockk-agent-jvm:$mockkVersion"
     ]
 
     appDependencies = [

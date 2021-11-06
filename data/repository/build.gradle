@@ -13,8 +13,10 @@ dependencies {
     kapt commonDependencies.hiltCompilerLib
 
     // Testing
-    testImplementation commonTestDependencies.mockitoLib
-    testImplementation commonTestDependencies.mockitoKotlinLib
+    testImplementation commonTestDependencies.mockkLib
+    testImplementation commonTestDependencies.mockkUnitLib
+
+    testImplementation commonTestDependencies.coroutinesTestLib
     testImplementation commonTestDependencies.junitLib
     testImplementation commonTestDependencies.extJunitLib
     testImplementation commonTestDependencies.truthLib

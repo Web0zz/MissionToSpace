@@ -11,7 +11,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import java.io.IOException
 
 class CacheTest {
     private lateinit var launchesDao: LaunchesDao
@@ -27,19 +26,28 @@ class CacheTest {
     }
 
     @After
-    @Throws(IOException::class)
     fun closeDb() {
         db.close()
     }
 
     @Test
-    @Throws(Exception::class)
-    fun writeLaunchesAndReadInList() = runBlocking {
+    fun writeLaunchesAndTakeAllLaunches() = runBlocking {
+        val expectedLaunches: List<LaunchesEntity> = DataBuilder.createLaunches(3)
+
+        launchesDao.insertLaunches(expectedLaunches)
+        val returnedLaunches = launchesDao.getAllLaunches()
+
+        assertThat(returnedLaunches).isEqualTo(expectedLaunches)
+    }
+
+    @Test
+    fun writeLaunchesAndTakeLaunchesById() = runBlocking {
         val launches: List<LaunchesEntity> = DataBuilder.createLaunches(3)
+        val expectedLaunchesById = launches.first()
 
         launchesDao.insertLaunches(launches)
-        val byId = launchesDao.getLaunches("0").first()
+        val returnedLaunchesById = launchesDao.getLaunchesById(expectedLaunchesById.id)
 
-        assertThat(byId).isEqualTo(launches[0])
+        assertThat(returnedLaunchesById).isEqualTo(expectedLaunchesById)
     }
 }

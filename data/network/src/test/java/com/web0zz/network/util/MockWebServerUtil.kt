@@ -28,11 +28,4 @@ object MockWebServerUtil {
                 .setBody(bodyText)
         )
     }
-
-    internal fun MockWebServer.enqueueErrorWithNullResponse(code: Int) {
-        enqueue(
-            MockResponse()
-                .setResponseCode(code)
-        )
-    }
 }
