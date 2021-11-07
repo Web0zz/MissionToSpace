@@ -1,4 +1,4 @@
-package com.web0zz.repository
+package com.web0zz.repository.repositoryImp
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
@@ -14,13 +14,10 @@ import com.web0zz.network.util.NetworkHelper
 import com.web0zz.network.util.NetworkResponse
 import com.web0zz.network.util.NetworkStatus
 import com.web0zz.repository.mapper.DataMappersFacade
-import com.web0zz.repository.mapper.mapLaunchesDto
-import com.web0zz.repository.mapper.mapLaunchesDtoToEntity
-import com.web0zz.repository.mapper.mapLaunchesEntity
 import com.web0zz.repository.repository.LaunchesRepositoryImp
-import com.web0zz.repository.repositoryUtil.expectedLaunches
-import com.web0zz.repository.repositoryUtil.expectedLaunchesDto
-import com.web0zz.repository.repositoryUtil.expectedLaunchesEntity
+import com.web0zz.repository.testUtil.expectedLaunches
+import com.web0zz.repository.testUtil.expectedLaunchesDto
+import com.web0zz.repository.testUtil.expectedLaunchesEntity
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.single
@@ -38,27 +35,29 @@ class LaunchesRepositoryImpTest {
     private lateinit var launchesDao: LaunchesDao
     @MockK
     private lateinit var networkHelper: NetworkHelper
-
+    @MockK
     private lateinit var dataMappersFacade: DataMappersFacade
 
     private lateinit var launchesDto: LaunchesDto
     private lateinit var launchesEntity: LaunchesEntity
     private lateinit var launches: Launches
+
     private lateinit var launchesId: String
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        dataMappersFacade = DataMappersFacade(
-            { launchesDto -> mapLaunchesDto(launchesDto) },
-            { launchesEntity -> mapLaunchesEntity(launchesEntity) },
-            { launchesDto -> mapLaunchesDtoToEntity(launchesDto) }
-        )
 
+        // Expected Dummy Models
         launchesDto = expectedLaunchesDto
         launchesEntity = expectedLaunchesEntity
         launches = expectedLaunches
         launchesId = expectedLaunches.id
+
+        // Mapper Setup
+        every { dataMappersFacade.launchesDtoMapper(any()) } returns launches
+        every { dataMappersFacade.launchesEntityMapper(any()) } returns launches
+        every { dataMappersFacade.launchesDtoToEntityMapper(any()) } returns launchesEntity
 
         launchesRepository =
             LaunchesRepositoryImp(apiService, launchesDao, dataMappersFacade, networkHelper)
@@ -72,7 +71,7 @@ class LaunchesRepositoryImpTest {
     // LaunchesRepository.getLaunchesData
 
     @Test
-    fun `return successful data from api when api request successful`() {
+    fun `return successful data from API when the API request successful`() {
         // Setup
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.Available
         coEvery { apiService.getLaunches() } returns NetworkResponse.Success(listOf(launchesDto))
@@ -88,7 +87,7 @@ class LaunchesRepositoryImpTest {
     }
 
     @Test
-    fun `return successful data from cache when api request failed`() {
+    fun `return successful data from the cache when the API request failed`() {
         // Setup
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.Available
         coEvery { apiService.getLaunches() } returns NetworkResponse.Error("")
@@ -104,9 +103,9 @@ class LaunchesRepositoryImpTest {
     }
 
     @Test
-    fun `return error when api request failed and cache data is empty `() {
+    fun `return error when API request failed and cache data is empty `() {
         val apiFailedMessage = "failed"
-        
+
         // Setup
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.Available
         coEvery { apiService.getLaunches() } returns NetworkResponse.Error(apiFailedMessage)
@@ -122,7 +121,7 @@ class LaunchesRepositoryImpTest {
     }
 
     @Test
-    fun `return successful data from cache when cache data successful while network unavailable`() {
+    fun `return successful data from the cache when cache data is successful while the network is unavailable`() {
         // Setup
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.UnAvailable
         coEvery { launchesDao.getAllLaunches() } returns listOf(launchesEntity)
@@ -152,7 +151,7 @@ class LaunchesRepositoryImpTest {
     }
 
     @Test
-    fun `return error when exception is caught`() {
+    fun `return error when an exception is caught`() {
         val exceptionMessage = "null"
 
         // Setup
@@ -185,58 +184,62 @@ class LaunchesRepositoryImpTest {
     }
 
     @Test
-    fun `return successful data byId from api when network available and api return successful response`() {
+    fun `return successful data byId from API when network available and API return a successful response`() {
         val captureInsertedData = slot<List<LaunchesEntity>>()
 
         // Setup
         coEvery { launchesDao.getLaunchesById(launchesId) } returns listOf()
         coEvery { networkHelper.getConnectionStatus() } returns NetworkStatus.Available
-        coEvery { apiService.getLaunchesById(launchesId) } returns NetworkResponse.Success(launchesDto)
+        coEvery { apiService.getLaunchesById(launchesId) } returns NetworkResponse.Success(
+            launchesDto
+        )
         coEvery { launchesDao.insertLaunches(capture(captureInsertedData)) } answers { }
-        
-        runBlocking { 
+
+        runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
-            
+
             assertThat(data).isInstanceOf(Ok::class.java)
             assertThat(data.component1()).isEqualTo(launches)
         }
     }
-    
+
     @Test
-    fun `return error byId when cache is empty and api request failed`() {
+    fun `return error byId when the cache is empty and API request failed`() {
         val apiFailedMessage = "failed"
-        
+
         // Setup
         coEvery { launchesDao.getLaunchesById(launchesId) } returns listOf()
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.Available
-        coEvery { apiService.getLaunchesById(launchesId) } returns NetworkResponse.Error(apiFailedMessage)
-    
-        runBlocking { 
+        coEvery { apiService.getLaunchesById(launchesId) } returns NetworkResponse.Error(
+            apiFailedMessage
+        )
+
+        runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
-            
+
             assertThat(data).isInstanceOf(Err::class.java)
             assertThat(data.component2()).isEqualTo(Failure.ApiResponseError(apiFailedMessage))
         }
     }
-    
+
     @Test
-    fun `return error byId when cache is empty and network unavailable`() {
-         val networkMessage = "Unavailable connection" //TODO move to const value
-        
+    fun `return error byId when the cache is empty and network unavailable`() {
+        val networkMessage = "Unavailable connection" //TODO move to const value
+
         // Setup
         coEvery { launchesDao.getLaunchesById(launchesId) } returns listOf()
         every { networkHelper.getConnectionStatus() } returns NetworkStatus.UnAvailable
-        
-        runBlocking { 
+
+        runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
-            
+
             assertThat(data).isInstanceOf(Err::class.java)
             assertThat(data.component2()).isEqualTo(Failure.NetworkConnectionError(networkMessage))
         }
     }
-    
+
     @Test
-    fun `return error byId when exception is caught`() {
+    fun `return error byId when an exception is caught`() {
         val exceptionMessage = "null"
 
         // Setup

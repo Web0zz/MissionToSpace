@@ -1,4 +1,4 @@
-package com.web0zz.repository.repositoryUtil
+package com.web0zz.repository.testUtil
 
 import com.web0zz.cache.model.*
 import com.web0zz.domain.model.*
