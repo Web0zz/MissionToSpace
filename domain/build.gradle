@@ -1,7 +1,5 @@
-plugins {
-    id 'java-library'
-    id 'kotlin'
-}
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
 java {
     sourceCompatibility = JavaVersion.VERSION_1_7
@@ -10,9 +8,23 @@ java {
 
 dependencies {
     // Kotlin Coroutines
-    implementation domainDependencies.coroutinesLib
+    implementation commonDependencies.coroutinesLib
 
     // Kotlin-Result
     api commonDependencies.kotlinResultLib
     api commonDependencies.kotlinResultCoroutinesLib
+
+    // Test - Junit
+    testImplementation commonTestDependencies.junitLib
+    testImplementation commonTestDependencies.extJunitLib
+
+    // Test - Assertion
+    testImplementation commonTestDependencies.kotestAssertLib
+
+    // Test - Mocking
+    testImplementation commonTestDependencies.mockkLib
+    testImplementation commonTestDependencies.mockkUnitLib
+
+    // Test - Coroutines
+    testImplementation commonTestDependencies.coroutinesTestLib
 }

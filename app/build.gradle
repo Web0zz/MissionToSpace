@@ -36,8 +36,8 @@ dependencies {
     implementation project(":navigation")
 
     // Default
-    implementation appDependencies.coreLib
-    implementation appDependencies.compatLib
+    implementation commonDependencies.coreLib
+    implementation commonDependencies.compatLib
     implementation appDependencies.materialLib
     implementation appDependencies.constraintLib
 }

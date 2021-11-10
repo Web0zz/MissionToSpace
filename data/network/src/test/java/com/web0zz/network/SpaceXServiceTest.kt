@@ -1,11 +1,11 @@
 package com.web0zz.network
 
-import com.google.common.truth.Truth.assertThat
 import com.web0zz.network.util.MockWebServerUtil.enqueueErrorResponse
 import com.web0zz.network.util.MockWebServerUtil.enqueueResponse
 import com.web0zz.network.util.NetworkResponse
 import com.web0zz.network.util.expectedLaunchesDto
 import com.web0zz.network.util.notFoundMessage
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockWebServer
@@ -47,7 +47,7 @@ class SpaceXServiceTest {
             val actualData = request.data
             val expectedData = expectedLaunchesDto
 
-            assertThat(actualData).isEqualTo(expectedData)
+            actualData shouldBe expectedData
         }
     }
 
@@ -62,7 +62,7 @@ class SpaceXServiceTest {
             val actualData = request.data
             val expectedData = expectedLaunchesDto.first()
 
-            assertThat(actualData).isEqualTo(expectedData)
+            actualData shouldBe expectedData
         }
     }
 
@@ -73,7 +73,7 @@ class SpaceXServiceTest {
         runBlocking {
             val request = service.getLaunchesById("NotExistId") as NetworkResponse.Error
 
-            assertThat(request.message).isEqualTo(notFoundMessage)
+            request.message shouldBe notFoundMessage
         }
     }
 }

@@ -10,8 +10,10 @@ buildscript {
         def kotlinVersion = "1.5.31"
         def navVersion = "2.4.0-alpha10"
         def hiltVersion = "2.38.1"
+        def junit5Version = "1.8.0.0"
 
         classpath "com.android.tools.build:gradle:$buildVersion"
+        classpath "de.mannodermaus.gradle.plugins:android-junit5:$junit5Version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navVersion"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hiltVersion"

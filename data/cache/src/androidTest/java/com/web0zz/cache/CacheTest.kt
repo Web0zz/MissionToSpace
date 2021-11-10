@@ -3,10 +3,10 @@ package com.web0zz.cache
 import android.content.Context
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
-import com.google.common.truth.Truth.assertThat
 import com.web0zz.cache.dao.LaunchesDao
 import com.web0zz.cache.model.LaunchesEntity
 import com.web0zz.cache.util.DataBuilder
+import io.kotest.matchers.shouldBe
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -37,7 +37,7 @@ class CacheTest {
         launchesDao.insertLaunches(expectedLaunches)
         val returnedLaunches = launchesDao.getAllLaunches()
 
-        assertThat(returnedLaunches).isEqualTo(expectedLaunches)
+        returnedLaunches shouldBe expectedLaunches
     }
 
     @Test
@@ -48,6 +48,6 @@ class CacheTest {
         launchesDao.insertLaunches(launches)
         val returnedLaunchesById = launchesDao.getLaunchesById(expectedLaunchesById.id)
 
-        assertThat(returnedLaunchesById).isEqualTo(expectedLaunchesById)
+        returnedLaunchesById shouldBe expectedLaunchesById
     }
 }

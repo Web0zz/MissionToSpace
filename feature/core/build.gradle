@@ -17,8 +17,8 @@ dependencies {
     kapt commonDependencies.hiltCompilerLib
 
     // Default
-    api appDependencies.coreLib
-    api appDependencies.compatLib
+    api commonDependencies.coreLib
+    api commonDependencies.compatLib
     api appDependencies.materialLib
     api appDependencies.constraintLib
 }

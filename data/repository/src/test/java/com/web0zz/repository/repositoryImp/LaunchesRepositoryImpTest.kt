@@ -2,7 +2,6 @@ package com.web0zz.repository.repositoryImp
 
 import com.github.michaelbull.result.Err
 import com.github.michaelbull.result.Ok
-import com.google.common.truth.Truth.assertThat
 import com.web0zz.cache.dao.LaunchesDao
 import com.web0zz.cache.model.LaunchesEntity
 import com.web0zz.domain.exception.Failure
@@ -18,6 +17,8 @@ import com.web0zz.repository.repository.LaunchesRepositoryImp
 import com.web0zz.repository.testUtil.expectedLaunches
 import com.web0zz.repository.testUtil.expectedLaunchesDto
 import com.web0zz.repository.testUtil.expectedLaunchesEntity
+import io.kotest.matchers.shouldBe
+import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.single
@@ -31,10 +32,13 @@ class LaunchesRepositoryImpTest {
 
     @MockK
     private lateinit var apiService: SpaceXService
+
     @MockK
     private lateinit var launchesDao: LaunchesDao
+
     @MockK
     private lateinit var networkHelper: NetworkHelper
+
     @MockK
     private lateinit var dataMappersFacade: DataMappersFacade
 
@@ -81,8 +85,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Ok::class.java)
-            assertThat(data.component1()).isEqualTo(listOf(launches))
+            data.shouldBeTypeOf<Ok<List<Launches>>>()
+            data.component1() shouldBe listOf(launches)
         }
     }
 
@@ -97,8 +101,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Ok::class.java)
-            assertThat(data.component1()).isEqualTo(listOf(launches))
+            data.shouldBeTypeOf<Ok<List<Launches>>>()
+            data.component1() shouldBe listOf(launches)
         }
     }
 
@@ -115,8 +119,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isEqualTo(Failure.ApiResponseError(apiFailedMessage))
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.ApiResponseError(apiFailedMessage)
         }
     }
 
@@ -130,8 +134,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Ok::class.java)
-            assertThat(data.component1()).isEqualTo(listOf(launches))
+            data.shouldBeTypeOf<Ok<List<Launches>>>()
+            data.component1() shouldBe listOf(launches)
         }
     }
 
@@ -145,8 +149,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isInstanceOf(Failure.NetworkConnectionError::class.java)
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.NetworkConnectionError("No network")
         }
     }
 
@@ -161,8 +165,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isEqualTo(Failure.UnknownError(exceptionMessage))
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.UnknownError(exceptionMessage)
         }
     }
     ////////////////////////////////////////////////////////////////////
@@ -178,8 +182,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            assertThat(data).isInstanceOf(Ok::class.java)
-            assertThat(data.component1()).isEqualTo(launches)
+            data.shouldBeTypeOf<Ok<Launches>>()
+            data.component1() shouldBe launches
         }
     }
 
@@ -198,8 +202,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            assertThat(data).isInstanceOf(Ok::class.java)
-            assertThat(data.component1()).isEqualTo(launches)
+            data.shouldBeTypeOf<Ok<Launches>>()
+            data.component1() shouldBe launches
         }
     }
 
@@ -217,8 +221,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isEqualTo(Failure.ApiResponseError(apiFailedMessage))
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.ApiResponseError(apiFailedMessage)
         }
     }
 
@@ -233,8 +237,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isEqualTo(Failure.NetworkConnectionError(networkMessage))
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.NetworkConnectionError(networkMessage)
         }
     }
 
@@ -249,8 +253,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            assertThat(data).isInstanceOf(Err::class.java)
-            assertThat(data.component2()).isEqualTo(Failure.UnknownError(exceptionMessage))
+            data.shouldBeTypeOf<Err<Failure>>()
+            data.component2() shouldBe Failure.UnknownError(exceptionMessage)
         }
     }
     ////////////////////////////////////////////////////////////////////

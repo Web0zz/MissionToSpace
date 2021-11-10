@@ -34,7 +34,8 @@ class LaunchesRepositoryImp @Inject constructor(
             try {
                 when (networkHelper.getConnectionStatus()) {
                     is NetworkStatus.Available -> {
-                        val apiResponse: NetworkResponse<List<LaunchesDto>> = apiService.getLaunches()
+                        val apiResponse: NetworkResponse<List<LaunchesDto>> =
+                            apiService.getLaunches()
 
                         result = when (apiResponse) {
                             is NetworkResponse.Success -> {
@@ -62,7 +63,7 @@ class LaunchesRepositoryImp @Inject constructor(
                         val data = launchesDao.getAllLaunches()
                             .map { dataMappersFacade.launchesEntityMapper(it) }
 
-                        result = if(data.isEmpty()) {
+                        result = if (data.isEmpty()) {
                             Err(Failure.NetworkConnectionError("No network"))
                         } else Ok(data)
                     }

@@ -4,7 +4,7 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 
 dependencies {
     // Core
-    implementation navDependencies.coreLib
+    implementation commonDependencies.coreLib
 
     // Navigation
     api navDependencies.navFragmentLib

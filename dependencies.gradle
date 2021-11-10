@@ -35,61 +35,69 @@ ext {
     // Testing
     testRunnerVersion = '1.0.2'
     junitVersion = '4.13.2'
+    junit5Version = '5.8.0'
     extjunitVersion = '1.1.3'
     espressoVersion = '3.4.0'
     truthVersion = '1.1.3'
     coroutinesTestVersion = '1.5.1'
     mockWebServerVersion = '4.9.2'
-    mockkVersion = "1.12.0"
+    mockkVersion = '1.12.0'
+    kotestVersion = '4.6.3'
 
     commonDependencies = [
+            // Android
             coreLib                  : "androidx.core:core-ktx:$coreVersion",
             compatLib                : "androidx.appcompat:appcompat:$compatVersion",
 
             // Kotlin-Result
             kotlinResultLib          : "com.michael-bull.kotlin-result:kotlin-result:$kotlinResultVersion",
             kotlinResultCoroutinesLib: "com.michael-bull.kotlin-result:kotlin-result-coroutines:$kotlinResultVersion",
+
+            // Kotlin
+            coroutinesLib            : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
+
             // Hilt - DI
             hiltAndroidLib           : "com.google.dagger:hilt-android:$hiltVersion",
             hiltCompilerLib          : "com.google.dagger:hilt-compiler:$hiltVersion"
     ]
 
     commonTestDependencies = [
+            // Android
             testRunnerLib    : "com.android.support.test:runner:$testRunnerVersion",
+
+            // Junit
             junitLib         : "junit:junit:$junitVersion",
+            junit5ApiLib     : "org.junit.jupiter:junit-jupiter-api:$junit5Version",
+            junit5EngineLib  : "org.junit.jupiter:junit-jupiter-engine:$junit5Version",
+            junit5VintageLib : "org.junit.vintage:junit-vintage-engine:$junit5Version",
             extJunitLib      : "androidx.test.ext:junit:$extjunitVersion",
 
+            // Ui
             espressoLib      : "androidx.test.espresso:espresso-core:$espressoVersion",
 
             truthLib         : "com.google.truth:truth:$truthVersion",
 
+            // Coroutine
             coroutinesTestLib: "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion",
 
+            // Mocking
             mockkLib         : "io.mockk:mockk:$mockkVersion",
-            mockkUnitLib     : "io.mockk:mockk-agent-jvm:$mockkVersion"
+            mockkUnitLib     : "io.mockk:mockk-agent-jvm:$mockkVersion",
+
+            // Assertion
+            kotestAssertLib  : "io.kotest:kotest-assertions-core:$kotestVersion",
+            kotestJunitLib   : "io.kotest:kotest-runner-junit5:$kotestVersion"
     ]
 
     appDependencies = [
-            // Default
-            coreLib      : "androidx.core:core-ktx:$coreVersion",
-            compatLib    : "androidx.appcompat:appcompat:$compatVersion",
-
             // View
             materialLib  : "com.google.android.material:material:$materialVersion",
             constraintLib: "androidx.constraintlayout:constraintlayout:$constraintVersion"
     ]
 
-    domainDependencies = [
-            // Kotlin
-            coroutinesLib: "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
-    ]
-
     dataCacheDependencies = [
             // Gson
             gsonLib        : "com.google.code.gson:gson:$gsonVersion",
-
-            // Kotlin
-            coroutinesLib  : "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutineVersion",
 
             // Room
             roomLib        : "androidx.room:room-runtime:$roomVersion",
@@ -107,15 +115,13 @@ ext {
     ]
 
     navDependencies = [
-            // Core
-            coreLib       : "androidx.core:core-ktx:$coreVersion",
-
             // Navigation
             navFragmentLib: "androidx.navigation:navigation-fragment-ktx:$navVersion",
             navUiLib      : "androidx.navigation:navigation-ui-ktx:$navVersion",
     ]
 
     navTestDependencies = [
+            // Test - Navigation
             navTestLib: "androidx.navigation:navigation-testing:$navVersion"
     ]
 

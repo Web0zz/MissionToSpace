@@ -2,6 +2,11 @@ apply from: "$rootDir/common-android-library.gradle"
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'de.mannodermaus.android-junit5'
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
 
 android {
     packagingOptions {
@@ -11,7 +16,7 @@ android {
 
 dependencies {
     // Coroutines
-    api dataCacheDependencies.coroutinesLib
+    api commonDependencies.coroutinesLib
 
     // Gson
     implementation dataCacheDependencies.gsonLib
@@ -25,10 +30,20 @@ dependencies {
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib
 
-    // Testing
-    androidTestImplementation commonTestDependencies.testRunnerLib
+    // Test - Junit
+    androidTestImplementation commonTestDependencies.junit5ApiLib
+    androidTestRuntimeOnly commonTestDependencies.junit5EngineLib
+    androidTestRuntimeOnly commonTestDependencies.junit5VintageLib
     androidTestImplementation commonTestDependencies.junitLib
     androidTestImplementation commonTestDependencies.extJunitLib
-    androidTestImplementation commonTestDependencies.truthLib
+
+    // Test - Assertion
+    androidTestImplementation commonTestDependencies.kotestAssertLib
+    androidTestImplementation commonTestDependencies.kotestJunitLib
+
+    // Test - Coroutines
     androidTestImplementation commonTestDependencies.coroutinesTestLib
+
+    // Test - Runner
+    androidTestImplementation commonTestDependencies.testRunnerLib
 }
