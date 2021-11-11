@@ -4,11 +4,13 @@ import com.github.michaelbull.result.Result
 import com.web0zz.domain.exception.Failure
 import com.web0zz.domain.model.Launches
 import com.web0zz.domain.repository.LaunchesRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 
 class GetLaunchesByIdUseCase(
-    private val launchesRepository: LaunchesRepository
-) : UseCase<Launches, Failure, String>() {
+    private val launchesRepository: LaunchesRepository,
+    mainDispatcher: CoroutineDispatcher
+) : UseCase<Launches, Failure, String>(mainDispatcher) {
     override suspend fun run(params: String): Flow<Result<Launches, Failure>> =
         launchesRepository.getLaunchesById(params)
 }

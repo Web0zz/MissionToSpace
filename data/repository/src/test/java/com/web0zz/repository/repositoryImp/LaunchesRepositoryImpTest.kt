@@ -18,7 +18,6 @@ import com.web0zz.repository.testUtil.expectedLaunches
 import com.web0zz.repository.testUtil.expectedLaunchesDto
 import com.web0zz.repository.testUtil.expectedLaunchesEntity
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.types.shouldBeTypeOf
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.single
@@ -85,8 +84,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Ok<List<Launches>>>()
-            data.component1() shouldBe listOf(launches)
+            data shouldBe Ok(listOf(launches))
         }
     }
 
@@ -101,8 +99,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Ok<List<Launches>>>()
-            data.component1() shouldBe listOf(launches)
+            data shouldBe Ok(listOf(launches))
         }
     }
 
@@ -119,8 +116,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.ApiResponseError(apiFailedMessage)
+            data shouldBe Err(Failure.ApiResponseError(apiFailedMessage))
         }
     }
 
@@ -134,8 +130,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Ok<List<Launches>>>()
-            data.component1() shouldBe listOf(launches)
+            data shouldBe Ok(listOf(launches))
         }
     }
 
@@ -149,8 +144,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.NetworkConnectionError("No network")
+            data shouldBe Err(Failure.NetworkConnectionError("No network"))
         }
     }
 
@@ -165,8 +159,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesData().single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.UnknownError(exceptionMessage)
+            data shouldBe Err(Failure.UnknownError(exceptionMessage))
         }
     }
     ////////////////////////////////////////////////////////////////////
@@ -182,8 +175,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            data.shouldBeTypeOf<Ok<Launches>>()
-            data.component1() shouldBe launches
+            data shouldBe Ok(launches)
         }
     }
 
@@ -202,8 +194,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            data.shouldBeTypeOf<Ok<Launches>>()
-            data.component1() shouldBe launches
+            data shouldBe Ok(launches)
         }
     }
 
@@ -221,8 +212,8 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.ApiResponseError(apiFailedMessage)
+            data shouldBe Err(Failure.ApiResponseError(apiFailedMessage))
+
         }
     }
 
@@ -237,8 +228,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.NetworkConnectionError(networkMessage)
+            data shouldBe Err(Failure.NetworkConnectionError(networkMessage))
         }
     }
 
@@ -253,8 +243,7 @@ class LaunchesRepositoryImpTest {
         runBlocking {
             val data = launchesRepository.getLaunchesById(launchesId).single()
 
-            data.shouldBeTypeOf<Err<Failure>>()
-            data.component2() shouldBe Failure.UnknownError(exceptionMessage)
+            data shouldBe Err(Failure.UnknownError(exceptionMessage))
         }
     }
     ////////////////////////////////////////////////////////////////////

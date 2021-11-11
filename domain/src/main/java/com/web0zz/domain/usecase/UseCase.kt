@@ -4,7 +4,9 @@ import com.github.michaelbull.result.Result
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 
-abstract class UseCase<out Type, out Failure, in Params> where Type : Any {
+abstract class UseCase<out Type, out Failure, in Params>(
+    private val mainDispatcher: CoroutineDispatcher
+) where Type : Any {
 
     abstract suspend fun run(params: Params): Flow<Result<Type, Failure>>
 
@@ -14,7 +16,7 @@ abstract class UseCase<out Type, out Failure, in Params> where Type : Any {
         scope: CoroutineScope = GlobalScope,
         onResult: (Flow<Result<Type, Failure>>) -> Unit = {}
     ) {
-        scope.launch(Dispatchers.Main) {
+        scope.launch(mainDispatcher) {
             val deferred = async(Dispatchers.IO) {
                 run(params)
             }
