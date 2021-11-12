@@ -10,6 +10,7 @@ ext {
     compatVersion = '1.3.1'
     materialVersion = '1.4.0'
     constraintVersion = '2.1.1'
+    lifecycleVersion = '2.4.0'
 
     // Coroutines
     coroutineVersion = '1.5.2'
@@ -46,6 +47,7 @@ ext {
 
     commonDependencies = [
             // Android
+            lifecycleLib: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
             coreLib                  : "androidx.core:core-ktx:$coreVersion",
             compatLib                : "androidx.appcompat:appcompat:$compatVersion",
 

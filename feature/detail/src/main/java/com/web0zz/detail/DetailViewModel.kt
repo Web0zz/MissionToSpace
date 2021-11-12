@@ -3,6 +3,7 @@ package com.web0zz.detail
 import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.mapBoth
 import com.web0zz.core.base.BaseViewModel
+import com.web0zz.domain.exception.Failure
 import com.web0zz.domain.model.Launches
 import com.web0zz.domain.usecase.GetLaunchesByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,6 +38,6 @@ class DetailViewModel @Inject constructor(
     sealed class DetailUiState {
         object Loading : DetailUiState()
         data class Success(val data: Launches) : DetailUiState()
-        data class Error(val error: String) : DetailUiState()
+        data class Error(val failure: Failure) : DetailUiState()
     }
 }

@@ -2,9 +2,32 @@ apply from: "$rootDir/common-android-library-feature.gradle"
 
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'de.mannodermaus.android-junit5'
+
+tasks.withType(Test) {
+    useJUnitPlatform()
+}
 
 dependencies {
     // Hilt
     implementation commonDependencies.hiltAndroidLib
     kapt commonDependencies.hiltCompilerLib
+
+    // Test - Junit
+    testImplementation commonTestDependencies.junit5ApiLib
+    testRuntimeOnly commonTestDependencies.junit5EngineLib
+    testRuntimeOnly commonTestDependencies.junit5VintageLib
+    testImplementation commonTestDependencies.junitLib
+    testImplementation commonTestDependencies.extJunitLib
+
+    // Test - Coroutines
+    testImplementation commonTestDependencies.coroutinesTestLib
+
+    // Test - Assertion
+    testImplementation commonTestDependencies.kotestAssertLib
+    testImplementation commonTestDependencies.kotestJunitLib
+
+    // Test - Mocking
+    testImplementation commonTestDependencies.mockkLib
+    testImplementation commonTestDependencies.mockkUnitLib
 }

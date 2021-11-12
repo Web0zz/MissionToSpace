@@ -38,6 +38,9 @@ dependencies {
     implementation project(":domain")
     implementation project(":navigation")
 
+    // Android
+    implementation commonDependencies.lifecycleLib
+
     // Constraint
     implementation featureLibDependencies.constraintLib
 }

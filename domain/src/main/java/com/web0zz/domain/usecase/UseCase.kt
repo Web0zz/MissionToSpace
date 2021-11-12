@@ -5,7 +5,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 
 abstract class UseCase<out Type, out Failure, in Params>(
-    private val mainDispatcher: CoroutineDispatcher
+    private val mainDispatcher: CoroutineDispatcher = Dispatchers.Main
 ) where Type : Any {
 
     abstract suspend fun run(params: Params): Flow<Result<Type, Failure>>
