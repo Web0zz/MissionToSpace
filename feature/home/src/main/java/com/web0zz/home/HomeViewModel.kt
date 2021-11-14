@@ -12,6 +12,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,14 +27,23 @@ class HomeViewModel @Inject constructor(
 
     fun loadLaunches() = getLaunchesUseCase(UseCase.None(), viewModelScope) {
         viewModelScope.launch {
-            it.collect { result ->
+            it.onStart { setLoading() }
+            .collect { result ->
                 result.mapBoth(::handleLaunchesList, ::handleFailure)
             }
         }
     }
+    
+    private fun setLoading() {
+        _launches.value = HomeUiState.Loading
+    }
 
     private fun handleLaunchesList(launchesData: List<Launches>) {
         _launches.value = HomeUiState.Success(launchesData)
+    }
+
+    private fun handleFailure(failure: Failure) {
+        _launches.value = HomeUiState.Error(failure)
     }
 
     sealed class HomeUiState {

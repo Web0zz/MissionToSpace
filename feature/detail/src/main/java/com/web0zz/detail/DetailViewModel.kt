@@ -11,6 +11,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,14 +26,23 @@ class DetailViewModel @Inject constructor(
 
     fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope) {
         viewModelScope.launch {
-            it.collect { result ->
+            it.onStart { setLoading() }
+            .collect { result ->
                 result.mapBoth(::handleLaunch, ::handleFailure)
             }
         }
     }
 
+    private fun setLoading() {
+        _launch.value = DetailUiState.Loading
+    }
+
     private fun handleLaunch(launcheData: Launches) {
         _launch.value = DetailUiState.Success(launcheData)
+    }
+
+    private fun handleFailure(failure: Failure) {
+        _launch.value = DetailUiState.Error(failure)
     }
 
     sealed class DetailUiState {
