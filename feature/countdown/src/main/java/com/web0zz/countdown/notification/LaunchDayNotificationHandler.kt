@@ -7,16 +7,18 @@ import javax.inject.Inject
 
 // TODO temp launch notification info
 data class LaunchCountdownData(
-    val launchName: String
+    val launchName: String,
+    val launchDate: Long
 )
 
 class LaunchDayNotificationHandler @Inject constructor(
     private val appContext: Context,
     private val launchCountdownData: LaunchCountdownData
 ) {
-    fun scheduleLaunchDateCountdownNotification(initialDelay: Long,) {
+    fun scheduleLaunchDateCountdownNotification(initialDelay: Long) {
         val launchData: Data = workDataOf(
-            "LAUNCH_NAME" to launchCountdownData.launchName
+            "LAUNCH_NAME" to launchCountdownData.launchName,
+            "LAUNCH_DATE" to launchCountdownData.launchDate
         )
 
         val work = OneTimeWorkRequestBuilder<LaunchCountdownWorker>()
@@ -31,14 +33,15 @@ class LaunchDayNotificationHandler @Inject constructor(
     private class LaunchCountdownWorker(
         appContext: Context,
         workerParams: WorkerParameters
-    ): Worker(appContext, workerParams) {
+    ) : Worker(appContext, workerParams) {
         @Inject
         private lateinit var launchDayNotificationBuilder: LaunchDayNotificationBuilder
 
         override fun doWork(): Result {
             val launchName = inputData.getString(LAUNCH_NAME) ?: LAUNCH_NAME
+            val launchDate = inputData.getLong(LAUNCH_NAME, 0)
 
-            return when(launchDayNotificationBuilder.showNotification(launchName)) {
+            return when (launchDayNotificationBuilder.showNotification(launchName, launchDate)) {
                 LaunchDayNotificationBuilder.Companion.ActionResult.SUCCESS -> {
                     Result.success()
                 }

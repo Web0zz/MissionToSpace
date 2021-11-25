@@ -34,7 +34,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(
     }
 
     private fun handleViewState(viewState: DetailViewModel.DetailUiState) {
-        when(viewState) {
+        when (viewState) {
             is DetailViewModel.DetailUiState.Loading -> handleLoading()
             is DetailViewModel.DetailUiState.Success -> handleLaunche(viewState.data)
             is DetailViewModel.DetailUiState.Error -> handleFailure(viewState.failure)
@@ -56,7 +56,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(
     }
 
     private fun handleFailure(failure: Failure) {
-        when(failure) {
+        when (failure) {
             is Failure.NetworkConnectionError -> renderFailure()
             is Failure.ApiResponseError -> renderFailure()
             is Failure.UnknownError -> renderFailure()

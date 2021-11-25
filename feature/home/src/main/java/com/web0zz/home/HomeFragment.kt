@@ -17,7 +17,8 @@ import javax.inject.Inject
 
 @DelicateCoroutinesApi
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
+class HomeFragment :
+    BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHomeBinding::inflate) {
     @Inject
     lateinit var navigator: Navigator
 
@@ -32,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
     }
 
     private fun handleViewState(viewState: HomeViewModel.HomeUiState) {
-        when(viewState) {
+        when (viewState) {
             is HomeViewModel.HomeUiState.Loading -> handleLoading()
             is HomeViewModel.HomeUiState.Success -> handleLaunchesList(viewState.data)
             is HomeViewModel.HomeUiState.Error -> handleFailure(viewState.failure)
@@ -54,7 +55,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding, HomeViewModel>(FragmentHo
     }
 
     private fun handleFailure(failure: Failure) {
-        when(failure) {
+        when (failure) {
             is Failure.NetworkConnectionError -> renderFailure()
             is Failure.ApiResponseError -> renderFailure()
             is Failure.UnknownError -> renderFailure()

@@ -50,7 +50,7 @@ ext {
 
     commonDependencies = [
             // Android
-            lifecycleLib: "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
+            lifecycleLib             : "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion",
             coreLib                  : "androidx.core:core-ktx:$coreVersion",
             compatLib                : "androidx.appcompat:appcompat:$compatVersion",
 
@@ -121,7 +121,7 @@ ext {
 
     countdownFeatureDependencies = [
             // WorkManager
-            workKtxLib : "androidx.work:work-runtime-ktx:$work_version"
+            workKtxLib: "androidx.work:work-runtime-ktx:$work_version"
     ]
 
     navDependencies = [

@@ -28,12 +28,12 @@ class HomeViewModel @Inject constructor(
     fun loadLaunches() = getLaunchesUseCase(UseCase.None(), viewModelScope) {
         viewModelScope.launch {
             it.onStart { setLoading() }
-            .collect { result ->
-                result.mapBoth(::handleLaunchesList, ::handleFailure)
-            }
+                .collect { result ->
+                    result.mapBoth(::handleLaunchesList, ::handleFailure)
+                }
         }
     }
-    
+
     private fun setLoading() {
         _launches.value = HomeUiState.Loading
     }

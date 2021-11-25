@@ -27,9 +27,9 @@ class DetailViewModel @Inject constructor(
     fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope) {
         viewModelScope.launch {
             it.onStart { setLoading() }
-            .collect { result ->
-                result.mapBoth(::handleLaunch, ::handleFailure)
-            }
+                .collect { result ->
+                    result.mapBoth(::handleLaunch, ::handleFailure)
+                }
         }
     }
 
