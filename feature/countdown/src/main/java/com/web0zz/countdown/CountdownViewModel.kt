@@ -1,9 +1,11 @@
 package com.web0zz.countdown
 
+import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
-import com.web0zz.countdown.util.toDateInt
+import com.web0zz.core.base.BaseViewModel
+import com.web0zz.countdown.util.toDateLong
 import com.web0zz.domain.exception.Failure
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
@@ -11,10 +13,12 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
+import java.util.*
 
 class CountdownViewModel @AssistedInject constructor(
     @Assisted private val deployDate: String
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _countdownState = MutableSharedFlow<CountdownUiState>(replay = 0)
     val countdownState: SharedFlow<CountdownUiState> = _countdownState
@@ -22,17 +26,29 @@ class CountdownViewModel @AssistedInject constructor(
     init {
         // Temp Implementation of countdown
         setLoading()
-        initCountdown(deployDate.toDateInt())
+        initCountdown(deployDate.toDateLong())
     }
 
-    // TODO This is Main logic of countdown. It can be outside of this class.
-    private fun initCountdown(deployDate: Int) {}
+    // TODO countdown must be tested
+    private fun initCountdown(deployDate: Long) {
+        val timeLeft = deployDate - Calendar.getInstance().timeInMillis
+
+        object : CountDownTimer(timeLeft, 1000) {
+            override fun onTick(p0: Long) {
+                handleSuccess(p0)
+            }
+
+            override fun onFinish() {
+                handleSuccess(0)
+            }
+        }
+    }
 
     private fun setLoading() = viewModelScope.launch {
         _countdownState.emit(CountdownUiState.Loading)
     }
 
-    private fun handleSuccess(countdown: Int) = viewModelScope.launch {
+    private fun handleSuccess(countdown: Long) = viewModelScope.launch {
         _countdownState.emit(CountdownUiState.Success(countdown))
     }
 
@@ -42,7 +58,7 @@ class CountdownViewModel @AssistedInject constructor(
 
     sealed class CountdownUiState {
         object Loading : CountdownUiState()
-        data class Success(val countdown: Int) : CountdownUiState()
+        data class Success(val countdown: Long) : CountdownUiState()
         data class Error(val failure: Failure) : CountdownUiState()
     }
 

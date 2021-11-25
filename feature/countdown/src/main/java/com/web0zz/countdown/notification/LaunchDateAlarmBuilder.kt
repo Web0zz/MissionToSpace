@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Build
 import java.util.*
 
+// TODO add to manifest
 class LaunchDateAlarmAction : BroadcastReceiver() {
     override fun onReceive(p0: Context, p1: Intent) {
         // TODO find what to show when launch time is on

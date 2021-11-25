@@ -1,5 +1,5 @@
 package com.web0zz.countdown.util
 
-fun String.toDateInt(): Int {
+fun String.toDateLong(): Long {
     return 1 // TODO
 }
