@@ -1,4 +1,4 @@
-package com.web0zz.countdown.notification
+package com.web0zz.countdown.launch_notification
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver

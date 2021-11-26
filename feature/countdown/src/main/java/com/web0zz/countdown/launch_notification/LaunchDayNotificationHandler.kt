@@ -1,4 +1,4 @@
-package com.web0zz.countdown.notification
+package com.web0zz.countdown.launch_notification
 
 import android.content.Context
 import androidx.work.*

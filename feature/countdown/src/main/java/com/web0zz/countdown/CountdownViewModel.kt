@@ -13,7 +13,6 @@ import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
-import java.time.LocalDateTime
 import java.util.*
 
 class CountdownViewModel @AssistedInject constructor(
@@ -31,16 +30,20 @@ class CountdownViewModel @AssistedInject constructor(
 
     // TODO countdown must be tested
     private fun initCountdown(deployDate: Long) {
-        val timeLeft = deployDate - Calendar.getInstance().timeInMillis
+        try {
+            val timeLeft = deployDate - Calendar.getInstance().timeInMillis
 
-        object : CountDownTimer(timeLeft, 1000) {
-            override fun onTick(p0: Long) {
-                handleSuccess(p0)
-            }
+            object : CountDownTimer(timeLeft, 1000) {
+                override fun onTick(p0: Long) {
+                    handleSuccess(p0)
+                }
 
-            override fun onFinish() {
-                handleSuccess(0)
+                override fun onFinish() {
+                    handleSuccess(0)
+                }
             }
+        } catch (e: Exception) {
+            handleError(Failure.UnknownError(e.message ?: "Don't know what happened"))
         }
     }
 
