@@ -27,7 +27,7 @@ class HomeFragment :
     override fun onCreateInvoke() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mViewModel.launches.collect(::handleViewState)
+                mViewModel.launchesHomeUi.collect(::handleViewState)
             }
         }
     }

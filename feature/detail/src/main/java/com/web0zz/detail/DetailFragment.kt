@@ -28,7 +28,7 @@ class DetailFragment : BaseFragment<FragmentDetailBinding, DetailViewModel>(
     override fun onCreateInvoke() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                mViewModel.launche.collect(::handleViewState)
+                mViewModel.launcheDetailUi.collect(::handleViewState)
             }
         }
     }

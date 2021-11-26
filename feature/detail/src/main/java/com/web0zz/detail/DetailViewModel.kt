@@ -21,8 +21,8 @@ class DetailViewModel @Inject constructor(
     private val getLaunchesByIdUseCase: GetLaunchesByIdUseCase
 ) : BaseViewModel() {
 
-    private val _launch: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState.Loading)
-    val launche: StateFlow<DetailUiState> = _launch
+    private val _launchDetailUi: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState.Loading)
+    val launcheDetailUi: StateFlow<DetailUiState> = _launchDetailUi
 
     fun getLaunch(id: String) = getLaunchesByIdUseCase(id, viewModelScope) {
         viewModelScope.launch {
@@ -34,15 +34,15 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun setLoading() {
-        _launch.value = DetailUiState.Loading
+        _launchDetailUi.value = DetailUiState.Loading
     }
 
     private fun handleLaunch(launcheData: Launches) {
-        _launch.value = DetailUiState.Success(launcheData)
+        _launchDetailUi.value = DetailUiState.Success(launcheData)
     }
 
     private fun handleFailure(failure: Failure) {
-        _launch.value = DetailUiState.Error(failure)
+        _launchDetailUi.value = DetailUiState.Error(failure)
     }
 
     sealed class DetailUiState {

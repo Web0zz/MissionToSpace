@@ -5,10 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
 import android.provider.CalendarContract
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class LaunchCalendar(
     private val appContext: Context
@@ -68,8 +65,7 @@ class LaunchCalendar(
                 title?.let { put(CalendarContract.Events.TITLE, title) }
                 description?.let { put(CalendarContract.Events.DESCRIPTION, "todo") }
             }
-            val updateUri: Uri =
-                ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID)
+            val updateUri: Uri = ContentUris.withAppendedId(CalendarContract.Events.CONTENT_URI, eventID)
             appContext.contentResolver.update(updateUri, values, null, null)
             true
         } catch (e: Exception) {
