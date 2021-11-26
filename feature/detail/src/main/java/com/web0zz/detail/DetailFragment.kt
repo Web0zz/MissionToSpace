@@ -7,7 +7,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.web0zz.core.base.BaseFragment
 import com.web0zz.detail.databinding.FragmentDetailBinding
 import com.web0zz.domain.exception.Failure
-import com.web0zz.domain.model.Launches
+import com.web0zz.domain.model.launches.Launches
 import com.web0zz.navigation.Navigator
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.DelicateCoroutinesApi

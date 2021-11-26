@@ -1,6 +1,6 @@
 package com.web0zz.repository.mapper
 
-import com.web0zz.domain.model.*
+import com.web0zz.domain.model.launches.*
 import com.web0zz.network.model.CoresDto
 import com.web0zz.network.model.FailuresDto
 import com.web0zz.network.model.LaunchesDto
@@ -17,15 +17,15 @@ fun mapLaunchesDto(input: LaunchesDto): Launches {
             )
         },
         input.links?.let {
-            Links(
+            LaunchesLinks(
                 it.patch?.let { patch ->
-                    Links.Companion.Patch(
+                    LaunchesLinks.Companion.Patch(
                         patch.small,
                         patch.large
                     )
                 },
                 it.reddit?.let { reddit ->
-                    Links.Companion.Reddit(
+                    LaunchesLinks.Companion.Reddit(
                         reddit.campaign,
                         reddit.launch,
                         reddit.media,
@@ -33,7 +33,7 @@ fun mapLaunchesDto(input: LaunchesDto): Launches {
                     )
                 },
                 it.flickr?.let { flickr ->
-                    Links.Companion.Flickr(
+                    LaunchesLinks.Companion.Flickr(
                         flickr.small,
                         flickr.original
                     )
@@ -80,8 +80,8 @@ private fun mapFailuresDto(input: FailuresDto): Failures {
     )
 }
 
-private fun mapCoresDto(input: CoresDto): Cores {
-    return Cores(
+private fun mapCoresDto(input: CoresDto): LaunchesCores {
+    return LaunchesCores(
         input.core,
         input.flight,
         input.gridfins,

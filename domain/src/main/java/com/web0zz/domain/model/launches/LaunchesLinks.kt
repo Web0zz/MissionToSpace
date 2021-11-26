@@ -1,6 +1,6 @@
-package com.web0zz.domain.model
+package com.web0zz.domain.model.launches
 
-data class Links(
+data class LaunchesLinks(
     val patch: Patch?,
     val reddit: Reddit?,
     val flickr: Flickr?,

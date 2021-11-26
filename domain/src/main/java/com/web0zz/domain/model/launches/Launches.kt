@@ -1,9 +1,9 @@
-package com.web0zz.domain.model
+package com.web0zz.domain.model.launches
 
 data class Launches(
     val id: String,
     val fairings: Fairings?,
-    val links: Links?,
+    val launchesLinks: LaunchesLinks?,
     val staticFireDateUtc: String?,
     val staticFireDateUnix: Int?,
     val net: Boolean?,
@@ -24,7 +24,7 @@ data class Launches(
     val dateLocal: String?,
     val datePrecision: String?,
     val upcoming: Boolean?,
-    val cores: List<Cores>?,
+    val cores: List<LaunchesCores>?,
     val autoUpdate: Boolean?,
     val tbd: Boolean?,
     val launchLibraryId: String?

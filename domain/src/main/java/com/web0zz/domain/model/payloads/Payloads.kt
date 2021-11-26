@@ -1,0 +1,32 @@
+package com.web0zz.domain.model.payloads
+
+data class Payloads(
+    val apoapsisKm: Double?,
+    val argOfPericenter: Double?,
+    val customers: List<String>?,
+    val dragon: Dragon?,
+    val eccentricity: Double?,
+    val epoch: String?,
+    val id: String,
+    val inclinationDeg: Double?,
+    val launch: String?,
+    val lifespanYears: Int?,
+    val longitude: Any?,
+    val manufacturers: List<String>?,
+    val massKg: Int?,
+    val massLbs: Double?,
+    val meanAnomaly: Double?,
+    val meanMotion: Double?,
+    val name: String?,
+    val nationalities: List<String>?,
+    val noradIds: List<Int>?,
+    val orbit: String?,
+    val periapsisKm: Double?,
+    val periodMin: Double?,
+    val raan: Double?,
+    val referenceSystem: String?,
+    val regime: String?,
+    val reused: Boolean?,
+    val semiMajorAxisKm: Double?,
+    val type: String?
+)

@@ -3,7 +3,7 @@ package com.web0zz.repository.mapper
 import com.web0zz.cache.model.CoresEntity
 import com.web0zz.cache.model.FailuresEntity
 import com.web0zz.cache.model.LaunchesEntity
-import com.web0zz.domain.model.*
+import com.web0zz.domain.model.launches.*
 
 fun mapLaunchesEntity(input: LaunchesEntity): Launches {
     return Launches(
@@ -17,15 +17,15 @@ fun mapLaunchesEntity(input: LaunchesEntity): Launches {
             )
         },
         input.links?.let {
-            Links(
+            LaunchesLinks(
                 it.patch?.let { patch ->
-                    Links.Companion.Patch(
+                    LaunchesLinks.Companion.Patch(
                         patch.small,
                         patch.large
                     )
                 },
                 it.reddit?.let { reddit ->
-                    Links.Companion.Reddit(
+                    LaunchesLinks.Companion.Reddit(
                         reddit.campaign,
                         reddit.launch,
                         reddit.media,
@@ -33,7 +33,7 @@ fun mapLaunchesEntity(input: LaunchesEntity): Launches {
                     )
                 },
                 it.flickr?.let { flickr ->
-                    Links.Companion.Flickr(
+                    LaunchesLinks.Companion.Flickr(
                         flickr.small,
                         flickr.original
                     )
@@ -80,8 +80,8 @@ private fun mapFailuresEntity(input: FailuresEntity): Failures {
     )
 }
 
-private fun mapCoresEntity(input: CoresEntity): Cores {
-    return Cores(
+private fun mapCoresEntity(input: CoresEntity): LaunchesCores {
+    return LaunchesCores(
         input.core,
         input.flight,
         input.gridfins,

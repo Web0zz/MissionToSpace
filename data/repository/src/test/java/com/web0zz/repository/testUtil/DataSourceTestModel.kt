@@ -1,7 +1,7 @@
 package com.web0zz.repository.testUtil
 
 import com.web0zz.cache.model.*
-import com.web0zz.domain.model.*
+import com.web0zz.domain.model.launches.*
 import com.web0zz.network.model.*
 
 internal val expectedLaunchesDto = LaunchesDto(
@@ -164,18 +164,18 @@ internal val expectedLaunches =
             recovered = false,
             ships = emptyList()
         ),
-        links = Links(
-            patch = Links.Companion.Patch(
+        launchesLinks = LaunchesLinks(
+            patch = LaunchesLinks.Companion.Patch(
                 small = "https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png",
                 large = "https://images2.imgbox.com/40/e3/GypSkayF_o.png"
             ),
-            reddit = Links.Companion.Reddit(
+            reddit = LaunchesLinks.Companion.Reddit(
                 campaign = null,
                 launch = null,
                 media = null,
                 recovery = null
             ),
-            flickr = Links.Companion.Flickr(
+            flickr = LaunchesLinks.Companion.Flickr(
                 small = emptyList(),
                 original = emptyList()
             ),
@@ -214,7 +214,7 @@ internal val expectedLaunches =
         datePrecision = "hour",
         upcoming = false,
         cores = listOf(
-            Cores(
+            LaunchesCores(
                 core = "5e9e289df35918033d3b2623",
                 flight = 1,
                 gridfins = false,

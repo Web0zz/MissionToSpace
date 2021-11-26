@@ -3,7 +3,7 @@ package com.web0zz.domain.usecase
 import com.github.michaelbull.result.Ok
 import com.github.michaelbull.result.Result
 import com.web0zz.domain.exception.Failure
-import com.web0zz.domain.model.Launches
+import com.web0zz.domain.model.launches.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import io.kotest.matchers.shouldBe
 import io.mockk.MockKAnnotations

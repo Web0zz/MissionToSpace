@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.github.michaelbull.result.mapBoth
 import com.web0zz.core.base.BaseViewModel
 import com.web0zz.domain.exception.Failure
-import com.web0zz.domain.model.Launches
+import com.web0zz.domain.model.launches.Launches
 import com.web0zz.domain.usecase.GetLaunchesByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi

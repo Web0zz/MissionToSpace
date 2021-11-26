@@ -1,6 +1,6 @@
-package com.web0zz.domain.model
+package com.web0zz.domain.model.launches
 
-data class Cores(
+data class LaunchesCores(
     val core: String,
     val flight: Int?,
     val gridfins: Boolean?,

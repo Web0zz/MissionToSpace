@@ -5,7 +5,7 @@ import com.github.michaelbull.result.Ok
 import com.web0zz.cache.dao.LaunchesDao
 import com.web0zz.cache.model.LaunchesEntity
 import com.web0zz.domain.exception.Failure
-import com.web0zz.domain.model.Launches
+import com.web0zz.domain.model.launches.Launches
 import com.web0zz.domain.repository.LaunchesRepository
 import com.web0zz.network.SpaceXService
 import com.web0zz.network.model.LaunchesDto
