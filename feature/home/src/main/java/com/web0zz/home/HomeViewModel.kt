@@ -42,8 +42,8 @@ class HomeViewModel @Inject constructor(
 
         if(launcheState is HomeUiState.Success) {
             when(sortByType) {
-                SortByType.LAUNCH_DATE -> { handleLaunchesList(launcheState.data.sortedBy { it.dateUnix }) }
-                SortByType.LAUNCH_NAME -> { handleLaunchesList(launcheState.data.sortedBy { it.name }) }
+                SortByType.LAUNCH_DATE -> { handleLaunchesList(launcheState.allLaunches.sortedBy { it.dateUnix }) }
+                SortByType.LAUNCH_NAME -> { handleLaunchesList(launcheState.allLaunches.sortedBy { it.name }) }
             }
         }
     }
@@ -53,7 +53,7 @@ class HomeViewModel @Inject constructor(
 
         if(launcheState is HomeUiState.Success) {
             setSearchList(
-                launcheState.data.filter {
+                launcheState.allLaunches.filter {
                     it.name?.contains(searchText) ?: false
                 }
             )
@@ -78,7 +78,7 @@ class HomeViewModel @Inject constructor(
 
     sealed class HomeUiState {
         object Loading : HomeUiState()
-        data class Success(val data: List<Launches>) : HomeUiState()
+        data class Success(val popularLaunches: List<Launches>, val allLaunches: List<Launches>) : HomeUiState()
         data class Error(val failure: Failure) : HomeUiState()
     }
 

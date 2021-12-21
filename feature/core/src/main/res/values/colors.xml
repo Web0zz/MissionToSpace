@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main Light Colors -->
+    <color name="light_background_color">#dce6f0</color>
+    <color name="light_text_color">#35597a</color>
+    <color name="light_extra_text_color">#385978</color>
+    <color name="light_small_head_color">#7290ae</color>
+    <color name="light_soft_head_color">#b4bec9</color>
+    <color name="light_box_background_color">#ffffff</color>
+    <color name="light_selected_item_color">#243d57</color>
+    <color name="light_unselected_item_color">#83919f</color>
+    <color name="light_button_background_color">#b4bec9</color>
+    <color name="light_button_tint_color">#384b62</color>
+    <!---->
+
+    <!-- Main Dark Colors -->
+    <color name="dark_background_color">#00071b</color>
+    <color name="dark_text_color">#f3faff</color>
+    <color name="dark_extra_text_color">#fafafb</color>
+    <color name="dark_small_head_color">#3d546e</color>
+    <color name="dark_box_background_color">#131d39</color>
+    <color name="dark_selected_item_color">#c8560d</color>
+    <color name="dark_unselected_item_color">#405773</color>
+    <color name="dark_button_background_color">#381700</color>
+    <color name="dark_button_tint_color">#e55d00</color>
+    <!---->
+</resources>

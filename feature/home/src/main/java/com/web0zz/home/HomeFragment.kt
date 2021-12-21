@@ -35,7 +35,7 @@ class HomeFragment :
     private fun handleViewState(viewState: HomeViewModel.HomeUiState) {
         when (viewState) {
             is HomeViewModel.HomeUiState.Loading -> handleLoading()
-            is HomeViewModel.HomeUiState.Success -> handleLaunchesList(viewState.data)
+            is HomeViewModel.HomeUiState.Success -> handleLauncheLists(viewState.popularLaunches, viewState.allLaunches)
             is HomeViewModel.HomeUiState.Error -> handleFailure(viewState.failure)
         }
     }
@@ -50,7 +50,7 @@ class HomeFragment :
         // TODO set loading state
     }
 
-    private fun handleLaunchesList(launches: List<Launches>) {
+    private fun handleLauncheLists(popularLaunches: List<Launches>, allLaunches: List<Launches>) {
         // TODO set launches data to xml
     }
 
@@ -66,5 +66,18 @@ class HomeFragment :
 
     private fun renderFailure(/*@StringRes message: Int*/) {
         // TODO show error to user
+    }
+
+
+    // Ui Setup
+
+    fun setPopularListUi(popularLaunches: List<Launches>) {
+        /*with(binding.popularInclude.popularLaunchesListItemsRecyclerView) {
+            adapter = Recycler()
+        }*/
+    }
+
+    fun setAllListUi(allLaunches: List<Launches>) {
+
     }
 }
